@@ -1,0 +1,65 @@
+:root {
+  /* ===== Primary Color Scale ===== */
+  --primary-300: oklch(55% 0.15 250); /* Lightest - #4488D5 */
+  --primary-500: oklch(45% 0.15 250); /* Base - #005DA4 */
+  --primary-700: oklch(35% 0.15 250); /* Darkest - #003777 */
+
+  /* ===== Neutral Color Scale ===== */
+  --neutral-50: oklch(100% 0 0); /* White - #FFFFFF */
+  --neutral-400: oklch(25% 0.01 250); /* Medium gray - #333333 */
+  --neutral-900: oklch(0% 0 0); /* Black - #000000 */
+  --neutral-200: oklch(85% 0.005 250); /* Light gray */
+
+  --success-500: oklch(70% 0.2 140); /* #5BB543 */
+  --warning-500: oklch(77.3% 0.19 79.5); /* #F5A524  */
+  --error-500: oklch(60% 0.2 25); /* #dc2626 */
+
+  /* ===== Spacing Scale ===== */
+  --space-3xs: 0.25rem; /* 4px - micro spacing */
+  --space-2xs: 0.5rem; /* 8px - small elements */
+  --space-xs: 1rem; /* 16px - component padding */
+  --space-sm: 1.5rem; /* 24px - section padding */
+  --space-md: 2rem; /* 32px - container margins */
+  --space-lg: 3rem; /* 48px - large gaps */
+  --space-xl: 4rem; /* 64px - exceptional spacing */
+
+  /* ===== Size System ===== */
+  --size-2xs: 1.25rem; /* 20px - icons */
+  --size-xs: 1.5rem; /* 24px - small buttons */
+  --size-sm: 1.75rem; /* 28px - default buttons */
+  --size-md: 2.5rem; /* 40px - form inputs */
+  --size-lg: 3.25rem; /* 52px - large components */
+
+  /* ===== Typography ===== */
+  --text-xs: 0.75rem; /* 12px - captions */
+  --text-sm: 0.875rem; /* 14px - body small */
+  --text-md: 1rem; /* 16px - base size */
+  --text-lg: 1.125rem; /* 18px - subheaders */
+  --text-xl: 1.25rem; /* 20px - headers */
+
+  /* ===== Interactive States ===== */
+  --interactive-hover: brightness(0.9);
+  --interactive-active: brightness(0.8);
+  --interactive-disabled: opacity(0.6);
+
+  /* ===== Theme Modes ===== */
+  --background: var(--neutral-50);
+  --foreground: var(--neutral-900);
+  --border-color: var(--neutral-400);
+
+  /* ===== Text Colors ===== */
+  --text-muted: var(--neutral-400);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: var(--neutral-900);
+    --foreground: var(--neutral-50);
+    --border-color: oklch(25% 0.01 250);
+
+    /* Dark mode color adjustments */
+    --primary-500: oklch(55% 0.15 250);
+    --primary-700: oklch(45% 0.15 250);
+    --text-muted: var(--neutral-200); /* Use light gray in dark mode */
+  }
+}

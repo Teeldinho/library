@@ -1,0 +1,61 @@
+/* Base styles */
+.button {
+  padding: var(--space-2xs) var(--space-xs);
+  border-radius: var(--space-3xs);
+  border: 1px solid var(--border-color);
+  font-weight: 500;
+  transition: filter 0.2s;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+}
+
+/* Variants */
+.button-primary {
+  background: var(--primary-500);
+  color: var(--neutral-50);
+}
+
+.button-secondary {
+  background: var(--neutral-50);
+  color: var(--neutral-900);
+  border-color: var(--border-color);
+}
+
+.button-success {
+  background: var(--success-500);
+  color: var(--neutral-50);
+}
+
+/* Sizes */
+.button-sm {
+  height: var(--size-sm);
+  font-size: var(--text-sm);
+  padding: var(--space-3xs) var(--space-2xs);
+}
+
+.button-md {
+  height: var(--size-md);
+  font-size: var(--text-md);
+  padding: var(--space-2xs) var(--space-xs);
+}
+
+.button-lg {
+  height: var(--size-lg);
+  font-size: var(--text-lg);
+  padding: var(--space-xs) var(--space-sm);
+}
+
+/* States */
+.button:hover {
+  filter: var(--interactive-hover);
+}
+
+.button:active {
+  filter: var(--interactive-active);
+}
+
+.button:disabled {
+  filter: var(--interactive-disabled);
+}

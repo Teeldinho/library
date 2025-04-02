@@ -1,82 +1,28 @@
 .main {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-xl);
+  gap: var(--space-xl);
   max-width: 50rem;
   margin: 0 auto;
-  padding: var(--spacing-xl) var(--spacing-md);
+  padding: var(--space-xl) var(--space-md);
 }
 
-/* Button styles */
-.button {
-  padding: var(--spacing-sm) var(--spacing-md);
-  border-radius: var(--spacing-sm);
-  border: 1px solid var(--border-color);
-  background: var(--primary-500);
-  color: var(--neutral-50);
-  font-weight: 500;
-  transition: background-color 0.2s, filter 0.2s;
-  cursor: pointer;
-  display: inline-flex;
-  gap: var(--spacing-sm);
-  align-items: center;
-}
-
-.button:hover {
-  filter: var(--interactive-hover);
-}
-
-.button:active {
-  filter: var(--interactive-active);
-}
-
-/* Primary button specific hover */
-.button:not(.secondary):not(.success):hover {
-  background: var(--primary-hover);
-}
-
-.secondary {
-  background: var(--neutral-50);
-  color: var(--neutral-900);
-  border-color: var(--border-color);
-}
-
-.secondary:hover {
-  filter: var(--interactive-hover);
-}
-
-.success {
-  background: var(--success-500);
-  color: var(--neutral-50);
-}
-
-.success:hover {
-  filter: var(--interactive-hover);
-}
-
-/* Disabled state */
-.button:disabled {
-  filter: var(--interactive-disabled);
-  cursor: not-allowed;
-}
-
-/* List items */
 .listItem {
-  padding: var(--spacing-md);
-  background: rgba(var(--neutral-900), 0.05);
+  padding: var(--space-sm);
+  background: var(--bg-muted);
   border: 1px solid var(--border-color);
-  border-radius: 0.5rem;
-  margin-bottom: var(--spacing-sm);
+  border-radius: var(--space-2xs);
+  margin-bottom: var(--space-sm);
 }
 
 .listItem:hover {
-  background: rgba(var(--neutral-900), 0.08);
+  background: color-mix(in srgb, var(--bg-muted) 90%);
 }
 
 .buttonGroup {
   display: flex;
-  gap: var(--spacing-md);
-  margin-bottom: var(--spacing-xl);
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
   flex-wrap: wrap;
 }
 

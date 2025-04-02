@@ -1,22 +1,25 @@
 import styles from "@/app/page.module.css";
+import { Button } from "@/components/ui/button/button";
 
 export default function Home() {
   return (
     <main className={styles.main}>
       <div className={styles.buttonGroup}>
-        <button type="button" className={styles.button}>
-          Primary Button
-        </button>
-        <button type="button" className={`${styles.button} ${styles.secondary}`}>
+        <Button variant="primary" size="lg">
+          Big Primary
+        </Button>
+        <Button variant="secondary" size="md">
           Secondary Button
-        </button>
-        <button type="button" className={`${styles.button} ${styles.success}`}>
+        </Button>
+        <Button variant="success" size="sm">
           Success Button
-        </button>
+        </Button>
       </div>
 
       <div className={styles.listContainer}>
-        <div className={styles.listItem}>List Item 1</div>
+        <div className={styles.listItem}>
+          <span className="text-muted">List Item 1</span>
+        </div>
         <div className={styles.listItem}>List Item 2</div>
         <div className={styles.listItem}>List Item 3</div>
       </div>
