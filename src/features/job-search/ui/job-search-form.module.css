@@ -55,14 +55,14 @@
 
 @media (max-width: 768px) {
   .locationRow {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-sm);
+    display: grid;
+    grid-template-columns: 65% 35%;
   }
 
   .buttonContainer {
-    width: 100%;
-    margin-left: 0;
+    width: 50%;
+    margin-left: auto;
+    margin-top: var(--space-sm);
   }
 
   .searchButton {
