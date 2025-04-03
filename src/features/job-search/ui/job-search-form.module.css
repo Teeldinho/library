@@ -46,11 +46,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-xs);
-}
-
-.searchButton::after {
-  content: "🔍";
+  gap: var(--space-sm);
 }
 
 @media (max-width: 768px) {
@@ -69,4 +65,10 @@
     width: 100%;
     justify-content: center;
   }
+}
+
+.searchIconContainer {
+  position: relative;
+  width: 1rem;
+  height: 1rem;
 }

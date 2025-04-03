@@ -1,6 +1,8 @@
-import { VStack, Label, Input, Button, AutocompleteSelect, Select } from "@/components/ui";
+import { VStack, Label, Input, Button, AutocompleteSelect, Select, HStack } from "@/components/ui";
 import styles from "@/features/job-search/ui/job-search-form.module.css";
 import { DISTANCE_OPTIONS, LOCATION_OPTIONS } from "@/features/job-search/helpers/dummy-data";
+import SearchIcon from "../../../../public/search-icon.svg";
+import Image from "next/image";
 
 export function JobSearchForm() {
   return (
@@ -31,6 +33,9 @@ export function JobSearchForm() {
       <div className={styles.buttonContainer}>
         <Button variant="success" className={styles.searchButton}>
           Find jobs now
+          <div className={styles.searchIconContainer}>
+            <Image src={SearchIcon} alt="Search icon" className={styles.searchIcon} />
+          </div>
         </Button>
       </div>
     </VStack>
