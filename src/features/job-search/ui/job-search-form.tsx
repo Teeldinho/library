@@ -3,7 +3,7 @@
 import { use } from "react";
 import { VStack, Label, Input, Button, AutocompleteSelect, Select } from "@/components/ui";
 import styles from "@/features/job-search/ui/job-search-form.module.css";
-import { DISTANCE_OPTIONS, LOCATION_OPTIONS } from "@/features/job-search/helpers/dummy-data";
+import { DISTANCE_OPTIONS } from "@/features/job-search/helpers/dummy-data";
 import SearchIcon from "../../../../public/search-icon.svg";
 import Image from "next/image";
 import { useStoreSearchParams } from "@/stores/nuqs/use-store-search-params";
@@ -46,7 +46,7 @@ export function JobSearchForm({ initialData }: LocationSearchProps) {
             id="location"
             inputSize="md"
             options={locationsResults || []}
-            placeholder="Locations"
+            placeholder={t("locationPlaceholder")}
             value={location}
             onChange={(e) => setLocation(e.target.value)}
           />

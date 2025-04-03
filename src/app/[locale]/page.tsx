@@ -6,6 +6,8 @@ import Image from "next/image";
 import { searchParamsCache } from "@/stores/nuqs/search-params";
 import type { SearchParams } from "nuqs/server";
 import LanguageSwitcher from "@/features/languages/ui/language-switcher";
+import { fetchLocations } from "@/features/job-search/api/queries";
+import { Suspense } from "react";
 
 type Props = {
   searchParams: Promise<SearchParams>;
@@ -15,6 +17,12 @@ type Props = {
 export default async function Home({ searchParams, params }: Props) {
   await searchParamsCache.parse(searchParams);
   const { locale } = await params;
+
+  const { filters } = await searchParamsCache.parse(searchParams);
+
+  console.log("\n\nFilters = ", filters);
+
+  const locationsPromise = fetchLocations(filters.location || "");
 
   return (
     <VStack space="3xl" className={styles.main} align="stretch">
@@ -33,7 +41,9 @@ export default async function Home({ searchParams, params }: Props) {
           </Container>
 
           <Container>
-            <JobSearchForm />
+            <Suspense fallback={<div>Loading...</div>}>
+              <JobSearchForm initialData={locationsPromise} />
+            </Suspense>
           </Container>
         </VStack>
       </div>
