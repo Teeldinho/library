@@ -1,38 +1,50 @@
 .base {
   width: 100%;
+  box-sizing: border-box;
 }
 
-.alignLeft {
+.base > * {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.align-left {
   margin-right: auto;
   margin-left: 0;
 }
 
-.alignCenter {
+.align-center {
   margin-left: auto;
   margin-right: auto;
 }
 
-.alignRight {
+.align-right {
   margin-left: auto;
   margin-right: 0;
 }
 
-.sizeXs {
+.size-xs {
   max-width: var(--size-container-xs);
 }
 
-.sizeSm {
+.size-sm {
   max-width: var(--size-container-sm);
 }
 
-.sizeMd {
+.size-md {
   max-width: var(--size-container-md);
 }
 
-.sizeLg {
+.size-lg {
   max-width: var(--size-container-lg);
 }
 
-.sizeFull {
+.size-full {
   max-width: 100%;
+}
+
+.size-sm,
+.size-md,
+.size-lg {
+  overflow: visible;
 }

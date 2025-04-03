@@ -18,6 +18,7 @@ const vstackVariants = cva(styles.vstack, {
       start: styles["items-start"],
       center: styles["items-center"],
       end: styles["items-end"],
+      stretch: styles["items-stretch"],
     },
   },
   defaultVariants: {

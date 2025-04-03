@@ -17,7 +17,7 @@ export default async function Home({ searchParams, params }: Props) {
   const { locale } = await params;
 
   return (
-    <VStack space="3xl" className={styles.main}>
+    <VStack space="3xl" className={styles.main} align="stretch">
       <div className={styles.top}>
         <VStack space="3xl">
           <Container>

@@ -26,5 +26,5 @@ export default function LanguageSwitcher({ currentLocale }: LanguageSwitcherProp
     router.replace(pathname, { locale: value });
   };
 
-  return <Select value={currentLocale} onChange={(e) => onSelectLocale(e.target.value)} options={options} variant="default" selectSize="sm" />;
+  return <Select value={currentLocale} onChange={(e) => onSelectLocale(e.target.value)} options={options} variant="default" />;
 }

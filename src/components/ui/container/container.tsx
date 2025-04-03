@@ -6,15 +6,15 @@ import styles from "./container.module.css";
 const containerVariants = cva(styles.base, {
   variants: {
     size: {
-      sm: styles.sizeSm,
-      md: styles.sizeMd,
-      lg: styles.sizeLg,
-      full: styles.sizeFull,
+      sm: styles["size-sm"],
+      md: styles["size-md"],
+      lg: styles["size-lg"],
+      full: styles["size-full"],
     },
     align: {
-      left: styles.alignLeft,
-      center: styles.alignCenter,
-      right: styles.alignRight,
+      left: styles["align-left"],
+      center: styles["align-center"],
+      right: styles["align-right"],
     },
   },
   defaultVariants: {

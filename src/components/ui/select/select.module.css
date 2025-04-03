@@ -35,12 +35,12 @@
   font-size: var(--text-lg);
 }
 
-.variantDefault {
+.variant-default {
   background-color: var(--neutral-50);
   border: 1px solid var(--border-color);
 }
 
-.variantPrimary {
+.variant-primary {
   border-color: var(--primary-500);
 }
 
