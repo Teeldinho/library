@@ -1,20 +1,29 @@
 /* Base styles */
 .button {
-  padding: var(--space-2xs) var(--space-xs);
-  border-radius: var(--space-3xs);
-  border: none;
-  font-weight: 500;
+  min-height: var(--form-element-height);
+  padding: var(--form-padding-y) var(--space-md);
+  border-radius: 0.3125rem;
+  border: 1px solid transparent;
+  font-weight: 600;
   transition: filter 0.2s;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: var(--space-2xs);
   min-width: -webkit-fill-available;
   min-width: fit-content;
   white-space: nowrap;
+  font-size: 1rem;
 }
 
 /* Variants */
+.button-default {
+  background: var(--neutral-50);
+  color: var(--neutral-900);
+  border-color: var(--border-color);
+}
+
 .button-primary {
   background: var(--primary-700);
   color: var(--neutral-50);
@@ -32,22 +41,21 @@
 }
 
 /* Sizes */
-.button-sm {
-  height: var(--size-sm);
-  font-size: var(--text-xs);
-  padding: var(--space-3xs) var(--space-2xs);
+.size-sm {
+  min-height: var(--size-sm);
+  padding: calc(var(--form-padding-y) * 0.85) var(--space-md);
+  font-size: 0.875rem; /* 14px */
 }
 
-.button-md {
-  height: var(--size-md);
-  font-size: var(--text-sm);
-  padding: var(--space-2xs) var(--space-xs);
+.size-md {
+  min-height: var(--form-element-height);
+  font-size: 1rem; /* 16px */
 }
 
-.button-lg {
-  height: var(--size-lg);
-  font-size: var(--text-md);
-  padding: var(--space-xs) var(--space-sm);
+.size-lg {
+  min-height: var(--size-lg);
+  padding: calc(var(--form-padding-y) * 1.15) var(--space-md);
+  font-size: 1.125rem; /* 18px */
 }
 
 /* States */

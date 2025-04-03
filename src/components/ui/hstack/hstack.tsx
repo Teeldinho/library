@@ -11,6 +11,8 @@ const hstackVariants = cva(styles.hstack, {
       md: styles["gap-md"],
       lg: styles["gap-lg"],
       xl: styles["gap-xl"],
+      "2xl": styles["gap-2xl"],
+      "3xl": styles["gap-3xl"],
     },
     align: {
       start: styles["items-start"],

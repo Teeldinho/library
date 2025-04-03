@@ -1,72 +1,31 @@
-import { Button, HStack, VStack, Card, Center, Icon, Container, Input, AutocompleteSelect, Label } from "@/components/ui";
-import { TabsRoot, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs/tabs";
-import styles from "./page.module.css";
+import styles from "@/app/page.module.css";
+import { VStack, Center, Container } from "@/components/ui";
+import { JobSearchForm, LocationTabs } from "@/features/job-search/ui";
+import CvLibraryLogo from "../../public/library-logo.svg";
+import Image from "next/image";
 
 export default function Home() {
   return (
-    <VStack space="xl" className={styles.main}>
-      <TabsRoot defaultValue="jobs">
-        <TabsList>
-          <TabsTrigger value="jobs">Jobs</TabsTrigger>
-          <TabsTrigger value="companies">Companies</TabsTrigger>
-        </TabsList>
+    <VStack space="3xl" className={styles.main}>
+      <div className={styles.top}>
+        <VStack space="3xl">
+          <Container>
+            <Center>
+              <div className={styles.logoContainer}>
+                <Image src={CvLibraryLogo} alt="CV Library" fill className={styles.logoImage} />
+              </div>
+            </Center>
+          </Container>
 
-        <TabsContent value="jobs">
-          <VStack space="md">
-            <h2>Job Listings</h2>
-            <HStack space="sm">
-              <VStack space="xs">
-                <Label htmlFor="search">Search Jobs:</Label>
-                <Input id="search" inputSize="sm" placeholder="Search jobs..." />
-              </VStack>
+          <Container>
+            <JobSearchForm />
+          </Container>
+        </VStack>
+      </div>
 
-              <AutocompleteSelect
-                options={[
-                  { value: "full-time", label: "Full Time Employment" },
-                  { value: "contract", label: "Contract Position" },
-                ]}
-                variant="primary"
-                inputSize="md"
-                placeholder="Select job type"
-              />
-            </HStack>
-          </VStack>
-        </TabsContent>
-
-        <TabsContent value="companies">
-          <h2>Company Directory</h2>
-          {/* Content */}
-        </TabsContent>
-      </TabsRoot>
-
-      <Center>
-        <Button variant="primary" size="lg">
-          Post Job
-        </Button>
-
-        <Card variant={"default"}>
-          <HStack>
-            <span className="text-muted-dark">Recent Searches</span>
-            <span>Recent Searches</span>
-          </HStack>
-        </Card>
+      <Center className={styles.tabsContainer}>
+        <LocationTabs />
       </Center>
-
-      <Container>
-        <Center>
-          <Button>Content</Button>
-        </Center>
-      </Container>
-      <Container align="left">
-        <Center>
-          <Button>Content</Button>
-        </Center>
-      </Container>
-      <Container align="right">
-        <Center>
-          <Button>Content</Button>
-        </Center>
-      </Container>
     </VStack>
   );
 }

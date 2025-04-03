@@ -9,3 +9,4 @@ export { Icon } from "./icon/icon";
 export { Container } from "./container/container";
 export { Input } from "./input/input";
 export { Label } from "./label/label";
+export { Select } from "./select/select";

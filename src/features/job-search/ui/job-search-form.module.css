@@ -1,0 +1,74 @@
+.formContainer {
+  width: 100%;
+  max-width: 40rem;
+  margin: 0 auto;
+}
+
+.label {
+  color: var(--neutral-50);
+  font-weight: 500;
+}
+
+.input,
+.select {
+  background: var(--neutral-50);
+  border: 1px solid var(--neutral-50);
+  border-radius: 2px;
+  width: 100%;
+}
+
+/* Layout with consistent width for distance and button */
+.locationRow {
+  display: grid;
+  grid-template-columns: 1fr 200px;
+  gap: var(--space-md);
+}
+
+.locationField {
+  grid-column: 1;
+}
+
+.distanceField {
+  grid-column: 2;
+  width: 100%;
+}
+
+.buttonContainer {
+  width: 200px;
+  margin-left: auto;
+}
+
+.searchButton {
+  width: 100%;
+  background-color: var(--success-500);
+  border-radius: 4px;
+  padding: var(--space-md) var(--space-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+}
+
+@media (max-width: 768px) {
+  .locationRow {
+    display: grid;
+    grid-template-columns: 65% 35%;
+  }
+
+  .buttonContainer {
+    width: 50%;
+    margin-left: auto;
+    margin-top: var(--space-sm);
+  }
+
+  .searchButton {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+.searchIconContainer {
+  position: relative;
+  width: 1rem;
+  height: 1rem;
+}

@@ -10,9 +10,11 @@ const buttonVariants = cva(styles.button, {
       success: styles["button-success"],
     },
     size: {
-      sm: styles["button-sm"],
-      md: styles["button-md"],
-      lg: styles["button-lg"],
+      sm: styles["size-sm"],
+      md: styles["size-md"],
+      lg: styles["size-lg"],
+      xl: styles["button-xl"],
+      "2xl": styles["button-2xl"],
     },
   },
   defaultVariants: {

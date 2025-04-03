@@ -1,0 +1,29 @@
+.linksContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.125rem;
+}
+
+.linkItem {
+  padding: var(--space-xs) 0;
+}
+
+.link {
+  color: var(--neutral-50);
+  text-decoration: none;
+  font-size: var(--text-md);
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .linkItem {
+    padding: var(--space-2xs) 0;
+  }
+
+  .link {
+    font-size: var(--text-sm);
+  }
+}
