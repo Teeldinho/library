@@ -160,3 +160,27 @@
 .h-full {
   height: 100%;
 }
+
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
+/* Form Elements */
+.form-base {
+  min-height: var(--form-element-height);
+  padding: var(--form-padding-y) var(--form-padding-x);
+}
+
+.form-sm {
+  min-height: calc(var(--form-element-height) * 0.89); /* ~40px */
+  padding: calc(var(--form-padding-y) * 0.85) var(--form-padding-x);
+}
+
+.form-lg {
+  min-height: calc(var(--form-element-height) * 1.11); /* ~50px */
+  padding: calc(var(--form-padding-y) * 1.15) var(--form-padding-x);
+}

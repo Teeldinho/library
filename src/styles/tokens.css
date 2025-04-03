@@ -22,13 +22,15 @@
   --space-md: 0.75rem; /* 12px */
   --space-lg: 1rem; /* 16px */
   --space-xl: 1.25rem; /* 20px */
+  --space-2xl: 1.5rem; /* 24px */
+  --space-3xl: 1.75rem; /* 28px */
 
   /* ===== Size System ===== */
-  --size-2xs: 0.75rem; /* 12px */
-  --size-xs: 1rem; /* 16px */
-  --size-sm: 1.25rem; /* 20px */
-  --size-md: 1.5rem; /* 24px */
-  --size-lg: 1.75rem; /* 28px */
+  --size-2xs: 1rem; /* 16px */
+  --size-xs: 1.25rem; /* 20px */
+  --size-sm: 1.5rem; /* 24px */
+  --size-md: 2rem; /* 32px */
+  --size-lg: 2.5rem; /* 40px */
 
   /* ===== Container Sizes ===== */
   --size-container-xs: 20rem; /* 320px */

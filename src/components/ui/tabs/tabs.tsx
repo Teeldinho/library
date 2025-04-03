@@ -33,11 +33,11 @@ type TabsTriggerProps = ComponentProps<"button"> & {
   children: React.ReactNode;
 };
 
-export const TabsRoot = ({ defaultValue, children }: { defaultValue: string; children: React.ReactNode }) => {
+export const TabsRoot = ({ defaultValue, children, className }: { defaultValue: string; children: React.ReactNode; className?: string }) => {
   const [activeTab, setActiveTab] = useState(defaultValue);
   return (
     <TabsContext.Provider value={{ activeTab, setActiveTab }}>
-      <div className={styles.tabsRoot}>{children}</div>
+      <div className={cn(styles.tabsRoot, className)}>{children}</div>
     </TabsContext.Provider>
   );
 };
@@ -71,12 +71,12 @@ export const TabsTrigger = ({ value, children, className, ...props }: TabsTrigge
   );
 };
 
-export const TabsContent = ({ value, children }: { value: string; children: React.ReactNode }) => {
+export const TabsContent = ({ value, children, className }: { value: string; children: React.ReactNode; className?: string }) => {
   const context = useContext(TabsContext);
   if (!context) throw new Error("TabsContent must be used within TabsRoot");
 
   return (
-    <div role="tabpanel" hidden={context.activeTab !== value} className={styles.tabContent}>
+    <div role="tabpanel" hidden={context.activeTab !== value} className={cn(styles.tabContent, className)}>
       {children}
     </div>
   );
