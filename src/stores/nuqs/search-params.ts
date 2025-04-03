@@ -10,5 +10,8 @@ export const JobSearchParamsSchema = z.object({
 
 // Server-side cache configuration
 export const searchParamsCache = createSearchParamsCache({
-  filters: parseAsJson(JobSearchParamsSchema.parse).withDefault(JobSearchParamsSchema.parse({})),
+  filters: parseAsJson(JobSearchParamsSchema.parse).withDefault(JobSearchParamsSchema.parse({})).withOptions({
+    shallow: false,
+    throttleMs: 1000,
+  }),
 });

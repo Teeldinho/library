@@ -1,5 +1,6 @@
 "use client";
 
+import { use } from "react";
 import { VStack, Label, Input, Button, AutocompleteSelect, Select } from "@/components/ui";
 import styles from "@/features/job-search/ui/job-search-form.module.css";
 import { DISTANCE_OPTIONS, LOCATION_OPTIONS } from "@/features/job-search/helpers/dummy-data";
@@ -7,11 +8,19 @@ import SearchIcon from "../../../../public/search-icon.svg";
 import Image from "next/image";
 import { useStoreSearchParams } from "@/stores/nuqs/use-store-search-params";
 import { useTranslations } from "next-intl";
+import { LocationRTO } from "@/features/job-search/models/mappers";
+interface LocationSearchProps {
+  initialData: Promise<LocationRTO[]>;
+}
 
-export function JobSearchForm() {
+export function JobSearchForm({ initialData }: LocationSearchProps) {
   const { keywords, location, distance, setKeywords, setLocation, setDistance } = useStoreSearchParams();
 
   const t = useTranslations("HomePage");
+
+  const locationsResults = use(initialData);
+
+  console.log("\n\nLocations results from Client = ", locationsResults);
 
   return (
     <VStack space="lg" className={styles.formContainer}>
@@ -36,8 +45,8 @@ export function JobSearchForm() {
           <AutocompleteSelect
             id="location"
             inputSize="md"
-            options={LOCATION_OPTIONS}
-            placeholder={t("locationPlaceholder")}
+            options={locationsResults || []}
+            placeholder="Locations"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
           />
