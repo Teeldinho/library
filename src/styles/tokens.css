@@ -15,27 +15,34 @@
   --error-500: oklch(60% 0.2 25); /* #dc2626 */
 
   /* ===== Spacing Scale ===== */
-  --space-3xs: 0.25rem; /* 4px - micro spacing */
-  --space-2xs: 0.5rem; /* 8px - small elements */
-  --space-xs: 1rem; /* 16px - component padding */
-  --space-sm: 1.5rem; /* 24px - section padding */
-  --space-md: 2rem; /* 32px - container margins */
-  --space-lg: 3rem; /* 48px - large gaps */
-  --space-xl: 4rem; /* 64px - exceptional spacing */
+  --space-3xs: 0.125rem; /* 2px */
+  --space-2xs: 0.25rem; /* 4px */
+  --space-xs: 0.375rem; /* 6px */
+  --space-sm: 0.5rem; /* 8px */
+  --space-md: 0.75rem; /* 12px */
+  --space-lg: 1rem; /* 16px */
+  --space-xl: 1.25rem; /* 20px */
 
   /* ===== Size System ===== */
-  --size-2xs: 1.25rem; /* 20px - icons */
-  --size-xs: 1.5rem; /* 24px - small buttons */
-  --size-sm: 1.75rem; /* 28px - default buttons */
-  --size-md: 2.5rem; /* 40px - form inputs */
-  --size-lg: 3.25rem; /* 52px - large components */
+  --size-2xs: 0.75rem; /* 12px */
+  --size-xs: 1rem; /* 16px */
+  --size-sm: 1.25rem; /* 20px */
+  --size-md: 1.5rem; /* 24px */
+  --size-lg: 1.75rem; /* 28px */
+
+  /* ===== Container Sizes ===== */
+  --size-container-xs: 20rem; /* 320px */
+  --size-container-sm: 28rem; /* 448px */
+  --size-container-md: 31.25rem; /* 500px */
+  --size-container-lg: 36rem; /* 576px */
+  --size-container-full: 100%;
 
   /* ===== Typography ===== */
-  --text-xs: 0.75rem; /* 12px - captions */
-  --text-sm: 0.875rem; /* 14px - body small */
-  --text-md: 1rem; /* 16px - base size */
-  --text-lg: 1.125rem; /* 18px - subheaders */
-  --text-xl: 1.25rem; /* 20px - headers */
+  --text-xs: 0.6875rem; /* 11px */
+  --text-sm: 0.75rem; /* 12px */
+  --text-md: 0.875rem; /* 14px */
+  --text-lg: 1rem; /* 16px */
+  --text-xl: 1.125rem; /* 18px */
 
   /* ===== Interactive States ===== */
   --interactive-hover: brightness(0.9);
@@ -43,23 +50,13 @@
   --interactive-disabled: opacity(0.6);
 
   /* ===== Theme Modes ===== */
-  --background: var(--neutral-50);
-  --foreground: var(--neutral-900);
+  /* --background: var(--neutral-50); */
+  --background: var(--primary-500);
+  --foreground: var(--neutral-50);
+  --foreground-dark: var(--neutral-900);
   --border-color: var(--neutral-400);
 
   /* ===== Text Colors ===== */
   --text-muted: var(--neutral-400);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: var(--neutral-900);
-    --foreground: var(--neutral-50);
-    --border-color: oklch(25% 0.01 250);
-
-    /* Dark mode color adjustments */
-    --primary-500: oklch(55% 0.15 250);
-    --primary-700: oklch(45% 0.15 250);
-    --text-muted: var(--neutral-200); /* Use light gray in dark mode */
-  }
+  --text-muted-dark: var(--neutral-200);
 }

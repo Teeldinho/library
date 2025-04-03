@@ -72,3 +72,91 @@
 .bg-warning {
   background: var(--warning-500);
 }
+
+/* Padding Utilities */
+.p-xs {
+  padding: var(--space-xs);
+}
+.p-sm {
+  padding: var(--space-sm);
+}
+.p-md {
+  padding: var(--space-md);
+}
+.p-lg {
+  padding: var(--space-lg);
+}
+
+.pt-xs {
+  padding-top: var(--space-xs);
+}
+.pr-xs {
+  padding-right: var(--space-xs);
+}
+.pb-xs {
+  padding-bottom: var(--space-xs);
+}
+.pl-xs {
+  padding-left: var(--space-xs);
+}
+
+/* Margin Utilities */
+.m-xs {
+  margin: var(--space-xs);
+}
+.m-sm {
+  margin: var(--space-sm);
+}
+.m-md {
+  margin: var(--space-md);
+}
+.m-lg {
+  margin: var(--space-lg);
+}
+
+.mt-xs {
+  margin-top: var(--space-xs);
+}
+.mr-xs {
+  margin-right: var(--space-xs);
+}
+.mb-xs {
+  margin-bottom: var(--space-xs);
+}
+.ml-xs {
+  margin-left: var(--space-xs);
+}
+
+/* Responsive margin/padding combinations */
+.px-xs {
+  padding-left: var(--space-xs);
+  padding-right: var(--space-xs);
+}
+
+.px-sm {
+  padding-left: var(--space-sm);
+  padding-right: var(--space-sm);
+}
+
+.py-md {
+  padding-top: var(--space-md);
+  padding-bottom: var(--space-md);
+}
+
+.py-lg {
+  padding-top: var(--space-lg);
+  padding-bottom: var(--space-lg);
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.h-full {
+  height: 100%;
+}

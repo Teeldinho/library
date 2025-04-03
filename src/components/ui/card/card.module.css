@@ -1,0 +1,35 @@
+.card {
+  background: var(--background);
+  border: 1px solid var(--border-color);
+  border-radius: var(--space-2xs);
+}
+
+.space-sm {
+  padding: var(--space-sm);
+}
+.space-md {
+  padding: var(--space-md);
+}
+.space-lg {
+  padding: var(--space-lg);
+}
+
+.default {
+  background: var(--background);
+  border: 1px solid var(--border-color);
+}
+
+.primary {
+  background: var(--primary-500);
+  border: 1px solid var(--primary-500);
+}
+
+.secondary {
+  background: var(--secondary-500);
+  border: 1px solid var(--secondary-500);
+}
+
+.tertiary {
+  background: var(--tertiary-500);
+  border: 1px solid var(--tertiary-500);
+}

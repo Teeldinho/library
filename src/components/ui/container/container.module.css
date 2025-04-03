@@ -1,0 +1,39 @@
+.base {
+  width: 100%;
+  background-color: aliceblue;
+}
+
+.alignLeft {
+  margin-right: auto;
+  margin-left: 0;
+}
+
+.alignCenter {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.alignRight {
+  margin-left: auto;
+  margin-right: 0;
+}
+
+.sizeXs {
+  max-width: var(--size-container-xs);
+}
+
+.sizeSm {
+  max-width: var(--size-container-sm);
+}
+
+.sizeMd {
+  max-width: var(--size-container-md);
+}
+
+.sizeLg {
+  max-width: var(--size-container-lg);
+}
+
+.sizeFull {
+  max-width: 100%;
+}

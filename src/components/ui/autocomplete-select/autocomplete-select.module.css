@@ -1,0 +1,35 @@
+.base {
+  padding: var(--space-2xs) var(--space-xs);
+  border: 1px solid var(--border-color);
+  border-radius: var(--space-3xs);
+  background: var(--background);
+  color: var(--foreground);
+  width: 100%;
+  font-size: var(--text-sm);
+}
+
+.sizeSm {
+  padding: var(--space-3xs) var(--space-2xs);
+}
+.sizeMd {
+  padding: var(--space-2xs) var(--space-xs);
+}
+.sizeLg {
+  padding: var(--space-xs) var(--space-sm);
+}
+
+.variantDefault {
+  background: var(--neutral-50);
+  border: 1px solid var(--border-color);
+}
+
+.variantPrimary {
+  background: var(--neutral-50);
+  border: 2px solid var(--primary-500);
+}
+
+/* Add focus states */
+.base:focus {
+  outline: 2px solid var(--primary-300);
+  outline-offset: -1px;
+}

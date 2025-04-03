@@ -1,0 +1,19 @@
+.base {
+  color: var(--foreground);
+  font-family: inherit;
+  line-height: 1.25;
+  display: block;
+}
+
+.sizeSm {
+  font-size: var(--text-sm);
+}
+
+.sizeMd {
+  font-size: var(--text-md);
+}
+
+.sizeLg {
+  font-size: var(--text-lg);
+  font-weight: 500;
+}
