@@ -1,5 +1,9 @@
 .tabsContainer {
   width: 100%;
+  /* border-top: 2px solid var(--primary-300); */
+  border-top-left-radius: var(--space-xs);
+  border-top-right-radius: var(--space-xs);
+  overflow: hidden;
 }
 
 .tabsList {
@@ -13,6 +17,9 @@
   background-color: var(--primary-300);
   flex: 1;
   text-align: center;
+  border-top: 2px solid var(--primary-300);
+  border-right: 2px solid var(--primary-300);
+  border-left: 2px solid var(--primary-300);
 }
 
 .tabsTrigger[aria-selected="true"] {
@@ -23,6 +30,7 @@
   padding: var(--space-lg);
   background-color: var(--primary-700);
   border-radius: 0;
+  border-top: 2px solid var(--primary-300);
 }
 
 @media (max-width: 768px) {

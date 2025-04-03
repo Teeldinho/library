@@ -44,6 +44,12 @@
   margin: 0 auto;
 }
 
+.tabsContainer {
+  color: var(--neutral-50);
+  margin-top: auto;
+  background: transparent;
+}
+
 @media (max-width: 768px) {
   .main {
     padding: var(--space-3xl) var(--space-3xl);
@@ -55,10 +61,8 @@
     height: 76px;
     margin: var(--space-lg) 0 var(--space-md);
   }
-}
 
-.tabsContainer {
-  color: var(--neutral-50);
-  background: var(--primary-700);
-  margin-top: auto;
+  .tabsContainer {
+    margin-top: 0;
+  }
 }

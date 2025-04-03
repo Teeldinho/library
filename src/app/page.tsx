@@ -20,9 +20,9 @@ export default function Home() {
       </Container>
 
       <Center className={styles.tabsContainer}>
-        <Container>
-          <LocationTabs />
-        </Container>
+        {/* <Container> */}
+        <LocationTabs />
+        {/* </Container> */}
       </Center>
     </VStack>
   );

@@ -1,7 +1,7 @@
 .linksContainer {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-md);
+  gap: 0.125rem;
 }
 
 .linkItem {
@@ -19,11 +19,6 @@
 }
 
 @media (max-width: 768px) {
-  .linksContainer {
-    grid-template-columns: 1fr;
-    gap: var(--space-xs);
-  }
-
   .linkItem {
     padding: var(--space-2xs) 0;
   }
