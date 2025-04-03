@@ -61,4 +61,9 @@
   /* ===== Text Colors ===== */
   --text-muted: var(--neutral-400);
   --text-muted-dark: var(--neutral-200);
+
+  /* ===== Form Elements ===== */
+  --form-element-height: 2.8125rem; /* 45px */
+  --form-padding-y: var(--space-2xs);
+  --form-padding-x: var(--space-sm);
 }

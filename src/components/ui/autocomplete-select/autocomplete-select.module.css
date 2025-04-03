@@ -2,25 +2,30 @@
   min-height: var(--form-element-height);
   padding: var(--form-padding-y) var(--form-padding-x);
   border: 1px solid var(--border-color);
-  border-radius: var(--space-3xs);
+  border-radius: 0.3125rem; /* 5px */
   background: var(--neutral-50);
   color: var(--foreground-dark);
   width: 100%;
   font-size: var(--text-md);
+  line-height: 1.375;
+  letter-spacing: 0;
+  text-align: left;
 }
 
-.sizeSm {
-  min-height: calc(var(--form-element-height) * 0.89);
+.size-sm {
+  min-height: var(--size-sm);
   padding: calc(var(--form-padding-y) * 0.85) var(--form-padding-x);
   font-size: var(--text-sm);
 }
 
-.sizeMd {
-  padding: var(--space-2xs) var(--space-xs);
+.size-md {
+  min-height: var(--form-element-height);
+  padding: var(--form-padding-y) var(--form-padding-x);
+  font-size: var(--text-md);
 }
 
-.sizeLg {
-  min-height: calc(var(--form-element-height) * 1.11);
+.size-lg {
+  min-height: var(--size-lg);
   padding: calc(var(--form-padding-y) * 1.15) var(--form-padding-x);
   font-size: var(--text-lg);
 }
@@ -48,4 +53,10 @@
 .base:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.base::placeholder {
+  font-size: 1rem;
+  color: var(--neutral-400);
+  opacity: 1;
 }

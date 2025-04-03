@@ -8,12 +8,15 @@
   background: transparent linear-gradient(180deg, var(--primary-500) 0%, var(--primary-700) 100%) 0% 0% no-repeat padding-box;
 }
 
-.logo {
-  margin-top: var(--space-xl);
-  margin-bottom: var(--space-lg);
-  display: relative;
-  width: var(--space-xl);
-  height: var(--space-lg);
+.logoContainer {
+  position: relative;
+  width: 350px;
+  height: 133.06px;
+  margin: var(--space-xl) 0 var(--space-lg);
+}
+
+.logoImage {
+  object-fit: contain;
 }
 
 .listItem {
@@ -46,11 +49,11 @@
     padding: var(--space-3xl) var(--space-3xl);
   }
 
-  .logo {
-    margin-top: var(--space-lg);
-    margin-bottom: var(--space-md);
-    width: var(--space-md);
-    height: var(--space-sm);
+  .logoContainer {
+    position: relative;
+    width: 200px;
+    height: 76px;
+    margin: var(--space-lg) 0 var(--space-md);
   }
 }
 

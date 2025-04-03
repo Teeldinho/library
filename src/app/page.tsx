@@ -8,8 +8,8 @@ export default function Home() {
   return (
     <VStack space="3xl" className={styles.main}>
       <Container>
-        <Center className={styles.logoContainer}>
-          <div style={{ position: "relative", width: "350px", height: "133.06px" }}>
+        <Center>
+          <div className={styles.logoContainer}>
             <Image src={cvLibraryLogo} alt="CV Library" fill className={styles.logoImage} />
           </div>
         </Center>
