@@ -1,0 +1,13 @@
+{
+  "HomePage": {
+    "jobLabel": "Palabras clave / Título del puesto / Referencia",
+    "jobPlaceholder": "p. ej. Ejecutivo de ventas",
+    "locationLabel": "Ubicación",
+    "locationPlaceholder": "p. ej. ciudad o código postal",
+    "distanceLabel": "Distancia",
+    "distancePlaceholder": "15 millas",
+    "searchButton": "Buscar empleos",
+    "jobsByLocation": "Empleos por ubicación",
+    "jobsByIndustry": "Empleos por industria"
+  }
+}

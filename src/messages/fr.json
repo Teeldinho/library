@@ -1,0 +1,13 @@
+{
+  "HomePage": {
+    "jobLabel": "Mots-clés / Titre du poste / Référence",
+    "jobPlaceholder": "p. ex. Directeur commercial",
+    "locationLabel": "Lieu",
+    "locationPlaceholder": "p. ex. ville ou code postal",
+    "distanceLabel": "Distance",
+    "distancePlaceholder": "15 kilomètres",
+    "searchButton": "Trouver emplois",
+    "jobsByLocation": "Emplois par localisation",
+    "jobsByIndustry": "Emplois par secteur"
+  }
+}

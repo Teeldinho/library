@@ -2,6 +2,7 @@
   width: 100%;
   max-width: 40rem;
   margin: 0 auto;
+  overflow: visible;
 }
 
 .label {
@@ -22,6 +23,7 @@
   display: grid;
   grid-template-columns: 1fr 200px;
   gap: var(--space-md);
+  overflow: visible;
 }
 
 .locationField {

@@ -6,13 +6,13 @@ import styles from "./select.module.css";
 const selectVariants = cva(styles.base, {
   variants: {
     size: {
-      sm: styles.sizeSm,
-      md: styles.sizeMd,
-      lg: styles.sizeLg,
+      sm: styles["size-sm"],
+      md: styles["size-md"],
+      lg: styles["size-lg"],
     },
     variant: {
-      default: styles.variantDefault,
-      primary: styles.variantPrimary,
+      default: styles["variant-default"],
+      primary: styles["variant-primary"],
     },
   },
   defaultVariants: {
@@ -28,8 +28,8 @@ type SelectProps = ComponentProps<"select"> &
     placeholder?: string;
   };
 
-export const Select = ({ className, options, selectSize, variant, placeholder, ...props }: SelectProps) => (
-  <select className={cn(selectVariants({ size: selectSize, variant, className }))} {...props}>
+export const Select = ({ className, options, selectSize, ...props }: SelectProps) => (
+  <select className={cn(selectVariants({ size: selectSize, className }))} {...props}>
     {options.map((option) => (
       <option key={option.value} value={option.value}>
         {option.label}
