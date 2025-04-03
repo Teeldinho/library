@@ -1,8 +1,7 @@
 .tabsContainer {
   width: 100%;
-  /* border-top: 2px solid var(--primary-300); */
-  border-top-left-radius: var(--space-xs);
-  border-top-right-radius: var(--space-xs);
+  border-top-left-radius: var(--space-sm);
+  border-top-right-radius: var(--space-sm);
   overflow: hidden;
 }
 
@@ -12,7 +11,7 @@
 }
 
 .tabsTrigger {
-  padding: var(--space-sm) var(--space-lg);
+  padding: var(--form-padding-y) var(--form-padding-x);
   color: var(--neutral-50);
   background-color: var(--primary-300);
   flex: 1;
@@ -20,6 +19,7 @@
   border-top: 2px solid var(--primary-300);
   border-right: 2px solid var(--primary-300);
   border-left: 2px solid var(--primary-300);
+  min-height: var(--form-element-height);
 }
 
 .tabsTrigger[aria-selected="true"] {
@@ -31,15 +31,4 @@
   background-color: var(--primary-700);
   border-radius: 0;
   border-top: 2px solid var(--primary-300);
-}
-
-@media (max-width: 768px) {
-  .tabsTrigger {
-    padding: var(--space-xs) var(--space-md);
-    font-size: var(--text-sm);
-  }
-
-  .tabsContent {
-    padding: var(--space-md);
-  }
 }

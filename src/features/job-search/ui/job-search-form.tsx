@@ -1,4 +1,4 @@
-import { VStack, HStack, Label, Input, Button, AutocompleteSelect, Select } from "@/components/ui";
+import { VStack, Label, Input, Button, AutocompleteSelect, Select } from "@/components/ui";
 import styles from "@/features/job-search/ui/job-search-form.module.css";
 import { DISTANCE_OPTIONS, LOCATION_OPTIONS } from "@/features/job-search/helpers/dummy-data";
 
@@ -12,7 +12,7 @@ export function JobSearchForm() {
         <Input id="keywords" placeholder="e.g. Sales Executive" className={styles.input} />
       </VStack>
 
-      <HStack space="md" className={styles.locationRow}>
+      <div className={styles.locationRow}>
         <VStack space="xs" className={styles.locationField}>
           <Label htmlFor="location" className={styles.label}>
             Location
@@ -24,16 +24,15 @@ export function JobSearchForm() {
           <Label htmlFor="distance" className={styles.label}>
             Distance
           </Label>
-
           <Select variant="default" options={DISTANCE_OPTIONS} placeholder="Select a distance" />
         </VStack>
-      </HStack>
+      </div>
 
-      <HStack className={styles.buttonContainer}>
+      <div className={styles.buttonContainer}>
         <Button variant="success" className={styles.searchButton}>
           Find jobs now
         </Button>
-      </HStack>
+      </div>
     </VStack>
   );
 }

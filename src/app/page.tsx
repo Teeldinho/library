@@ -7,22 +7,24 @@ import Image from "next/image";
 export default function Home() {
   return (
     <VStack space="3xl" className={styles.main}>
-      <Container>
-        <Center>
-          <div className={styles.logoContainer}>
-            <Image src={cvLibraryLogo} alt="CV Library" fill className={styles.logoImage} />
-          </div>
-        </Center>
-      </Container>
+      <div className={styles.top}>
+        <VStack space="3xl">
+          <Container>
+            <Center>
+              <div className={styles.logoContainer}>
+                <Image src={cvLibraryLogo} alt="CV Library" fill className={styles.logoImage} />
+              </div>
+            </Center>
+          </Container>
 
-      <Container>
-        <JobSearchForm />
-      </Container>
+          <Container>
+            <JobSearchForm />
+          </Container>
+        </VStack>
+      </div>
 
       <Center className={styles.tabsContainer}>
-        {/* <Container> */}
         <LocationTabs />
-        {/* </Container> */}
       </Center>
     </VStack>
   );

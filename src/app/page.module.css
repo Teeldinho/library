@@ -51,7 +51,7 @@
 }
 
 @media (max-width: 768px) {
-  .main {
+  .top {
     padding: var(--space-3xl) var(--space-3xl);
   }
 
