@@ -41,10 +41,8 @@ export default async function RootLayout({
   // For static rendering: inform next-intl of the current locale (since there's no request during build)
   setRequestLocale(locale);
 
-  console.log("\n\nlocale", locale);
-
   return (
-    <html lang="en" className="light">
+    <html lang={locale} className="light">
       <body className={cn(openSans.variable)}>
         <NuqsAdapter>
           <NextIntlClientProvider>{children}</NextIntlClientProvider>

@@ -1,8 +1,11 @@
 {
   "HomePage": {
+    "jobLabel": "Keywords / Job Title / Job Ref",
     "jobPlaceholder": "e.g. Sales Executive",
+    "locationLabel": "Location",
     "locationPlaceholder": "e.g. town or postcode",
-    "distanceLabel": "15 miles",
+    "distanceLabel": "Distance",
+    "distancePlaceholder": "15 miles",
     "searchButton": "Find jobs now",
     "jobsByLocation": "Jobs by Location",
     "jobsByIndustry": "Jobs by Industry"

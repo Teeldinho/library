@@ -28,8 +28,8 @@ type SelectProps = ComponentProps<"select"> &
     placeholder?: string;
   };
 
-export const Select = ({ className, options, selectSize, variant, placeholder, ...props }: SelectProps) => (
-  <select className={cn(selectVariants({ size: selectSize, variant, className }))} {...props}>
+export const Select = ({ className, options, ...props }: SelectProps) => (
+  <select className={cn(selectVariants({ className }))} {...props}>
     {options.map((option) => (
       <option key={option.value} value={option.value}>
         {option.label}

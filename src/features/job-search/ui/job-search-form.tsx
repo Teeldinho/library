@@ -17,7 +17,7 @@ export function JobSearchForm() {
     <VStack space="lg" className={styles.formContainer}>
       <VStack space="xs">
         <Label htmlFor="keywords" className={styles.label}>
-          {t("jobPlaceholder")}
+          {t("jobLabel")}
         </Label>
         <Input
           id="keywords"
@@ -31,7 +31,7 @@ export function JobSearchForm() {
       <div className={styles.locationRow}>
         <VStack space="xs" className={styles.locationField}>
           <Label htmlFor="location" className={styles.label}>
-            {t("locationPlaceholder")}
+            {t("locationLabel")}
           </Label>
           <AutocompleteSelect
             id="location"
@@ -50,7 +50,7 @@ export function JobSearchForm() {
           <Select
             variant="default"
             options={DISTANCE_OPTIONS}
-            placeholder={t("distanceLabel")}
+            placeholder={t("distancePlaceholder")}
             value={distance}
             onChange={(e) => setDistance(e.target.value as "5" | "10" | "15" | "20" | "30" | "50")}
           />
