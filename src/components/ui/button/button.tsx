@@ -1,17 +1,18 @@
 import { cva, VariantProps } from "class-variance-authority";
 import type { ComponentProps } from "react";
-
-const buttonVariants = cva("button", {
+import styles from "./button.module.css";
+import { cn } from "@/lib/utils";
+const buttonVariants = cva(styles.button, {
   variants: {
     variant: {
-      primary: "button-primary",
-      secondary: "button-secondary",
-      success: "button-success",
+      primary: styles["button-primary"],
+      secondary: styles["button-secondary"],
+      success: styles["button-success"],
     },
     size: {
-      sm: "button-sm",
-      md: "button-md",
-      lg: "button-lg",
+      sm: styles["button-sm"],
+      md: styles["button-md"],
+      lg: styles["button-lg"],
     },
   },
   defaultVariants: {
@@ -23,5 +24,5 @@ const buttonVariants = cva("button", {
 type ButtonProps = ComponentProps<"button"> & VariantProps<typeof buttonVariants>;
 
 export function Button({ variant, size, className, ...props }: ButtonProps) {
-  return <button className={buttonVariants({ variant, size, className })} {...props} />;
+  return <button className={cn(buttonVariants({ variant, size, className }))} {...props} />;
 }

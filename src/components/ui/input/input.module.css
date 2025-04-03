@@ -1,0 +1,60 @@
+.base {
+  color: var(--foreground-dark);
+  width: 100%;
+  border: 1px solid var(--border-color);
+  border-radius: var(--space-3xs);
+  background: var(--neutral-50);
+  transition: border-color 0.2s;
+  padding: var(--space-2xs) var(--space-xs);
+}
+
+.base:focus {
+  outline: 2px solid var(--primary-300);
+  outline-offset: -1px;
+}
+
+.sizeSm {
+  padding: var(--space-2xs) var(--space-xs);
+  font-size: var(--text-sm);
+}
+
+.sizeMd {
+  padding: var(--space-xs) var(--space-sm);
+  font-size: var(--text-md);
+}
+
+.sizeLg {
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--text-lg);
+}
+
+.variantDefault {
+  border-color: var(--border-color);
+}
+
+.variantPrimary {
+  border-color: var(--primary-500);
+}
+
+.variantSubtle {
+  background: var(--bg-muted);
+  border-color: transparent;
+}
+
+.base::placeholder {
+  color: var(--text-muted);
+  opacity: 1; /* Override Firefox default opacity */
+}
+
+.variant-subtle::placeholder {
+  color: var(--neutral-200);
+}
+
+/* Ensure text contrast */
+.base {
+  color: var(--foreground-dark);
+}
+
+.variant-primary {
+  color: var(--neutral-50);
+}
