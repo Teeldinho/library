@@ -33,10 +33,25 @@ type TabsTriggerProps = ComponentProps<"button"> & {
   children: React.ReactNode;
 };
 
-export const TabsRoot = ({ defaultValue, children, className }: { defaultValue: string; children: React.ReactNode; className?: string }) => {
-  const [activeTab, setActiveTab] = useState(defaultValue);
+type TabsRootProps = {
+  value?: string;
+  defaultValue: string;
+  children: React.ReactNode;
+  className?: string;
+  onValueChange?: (value: string) => void;
+};
+
+export const TabsRoot = ({ value, defaultValue, children, className, onValueChange }: TabsRootProps) => {
+  const [internalValue, setInternalValue] = useState(defaultValue);
+  const activeValue = value ?? internalValue;
+
+  const handleValueChange = (newValue: string) => {
+    if (!value) setInternalValue(newValue);
+    onValueChange?.(newValue);
+  };
+
   return (
-    <TabsContext.Provider value={{ activeTab, setActiveTab }}>
+    <TabsContext.Provider value={{ activeTab: activeValue, setActiveTab: handleValueChange }}>
       <div className={cn(styles.tabsRoot, className)}>{children}</div>
     </TabsContext.Provider>
   );

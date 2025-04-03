@@ -3,8 +3,12 @@ import { VStack, Center, Container } from "@/components/ui";
 import { JobSearchForm, LocationTabs } from "@/features/job-search/ui";
 import CvLibraryLogo from "../../public/library-logo.svg";
 import Image from "next/image";
+import { searchParamsCache } from "@/stores/nuqs/search-params";
+import type { SearchParams } from "nuqs/server";
 
-export default function Home() {
+export default async function Home({ searchParams }: { searchParams: Promise<SearchParams> }) {
+  await searchParamsCache.parse(searchParams);
+
   return (
     <VStack space="3xl" className={styles.main}>
       <div className={styles.top}>

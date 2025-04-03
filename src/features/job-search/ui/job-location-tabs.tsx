@@ -1,12 +1,17 @@
+"use client";
+
 import { TabsRoot, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs/tabs";
 import { JobListingLinks } from "./job-listing-links";
 import styles from "./job-location-tabs.module.css";
 import { INDUSTRY_LINKS, LOCATION_LINKS } from "@/features/job-search/helpers/dummy-data";
 import { Container } from "@/components/ui";
+import { useStoreSearchParams } from "@/stores/nuqs/use-store-search-params";
 
 export function LocationTabs() {
+  const { tab, setTab } = useStoreSearchParams();
+
   return (
-    <TabsRoot defaultValue="location" className={styles.tabsContainer}>
+    <TabsRoot value={tab} defaultValue={tab} className={styles.tabsContainer} onValueChange={(tab) => setTab(tab as "location" | "industry")}>
       <Container>
         <TabsList className={styles.tabsList}>
           <TabsTrigger value="location" className={styles.tabsTrigger}>
