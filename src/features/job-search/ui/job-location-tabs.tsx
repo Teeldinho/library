@@ -6,19 +6,20 @@ import styles from "./job-location-tabs.module.css";
 import { INDUSTRY_LINKS, LOCATION_LINKS } from "@/features/job-search/helpers/dummy-data";
 import { Container } from "@/components/ui";
 import { useStoreSearchParams } from "@/stores/nuqs/use-store-search-params";
+import { useTranslations } from "next-intl";
 
 export function LocationTabs() {
   const { tab, setTab } = useStoreSearchParams();
-
+  const t = useTranslations("HomePage");
   return (
     <TabsRoot value={tab} defaultValue={tab} className={styles.tabsContainer} onValueChange={(tab) => setTab(tab as "location" | "industry")}>
       <Container>
         <TabsList className={styles.tabsList}>
           <TabsTrigger value="location" className={styles.tabsTrigger}>
-            Jobs by Location
+            {t("jobsByLocation")}
           </TabsTrigger>
           <TabsTrigger value="industry" className={styles.tabsTrigger}>
-            Jobs by Industry
+            {t("jobsByIndustry")}
           </TabsTrigger>
         </TabsList>
       </Container>

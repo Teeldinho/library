@@ -1,0 +1,10 @@
+{
+  "HomePage": {
+    "jobPlaceholder": "p. ex. Directeur commercial",
+    "locationPlaceholder": "p. ex. ville ou code postal",
+    "distanceLabel": "15 miles",
+    "searchButton": "Trouver des emplois maintenant",
+    "jobsByLocation": "Emplois par localisation",
+    "jobsByIndustry": "Emplois par secteur"
+  }
+}

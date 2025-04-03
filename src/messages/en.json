@@ -1,0 +1,10 @@
+{
+  "HomePage": {
+    "jobPlaceholder": "e.g. Sales Executive",
+    "locationPlaceholder": "e.g. town or postcode",
+    "distanceLabel": "15 miles",
+    "searchButton": "Find jobs now",
+    "jobsByLocation": "Jobs by Location",
+    "jobsByIndustry": "Jobs by Industry"
+  }
+}
