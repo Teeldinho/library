@@ -16,7 +16,7 @@ export async function JobSearchForm() {
   console.log("\n\nLocation from Server = ", location);
 
   // Server-side data fetching
-  const locationsPromise = fetchLocations(location || "Man"); // Initial empty query
+  const locationsPromise = fetchLocations(location || "Qu"); // Initial empty query
 
   return (
     <VStack space="lg" className={styles.formContainer}>

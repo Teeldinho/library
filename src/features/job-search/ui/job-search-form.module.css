@@ -74,3 +74,9 @@
   width: 1rem;
   height: 1rem;
 }
+
+.loadingContainer {
+  height: 56px; /* Match input field height */
+  display: flex;
+  align-items: center;
+}

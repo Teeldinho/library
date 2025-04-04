@@ -33,9 +33,19 @@ export function Autocomplete<T extends Suggestion>({
         onChange={(e) => onInputChange(e.target.value)}
         className={styles.input}
       />
-      <Suspense fallback={<div className={styles.loading}>Loading suggestions...</div>}>
-        <Suggestions datalistId={listId} suggestionsPromise={suggestionsPromise} />
-      </Suspense>
+
+      {/* Fixed height container */}
+      <div className={styles.suggestionsContainer}>
+        <Suspense
+          fallback={
+            <div className={styles.loadingContainer}>
+              <div className={styles.loading}>Loading suggestions...</div>
+            </div>
+          }
+        >
+          <Suggestions datalistId={listId} suggestionsPromise={suggestionsPromise} />
+        </Suspense>
+      </div>
     </div>
   );
 }
