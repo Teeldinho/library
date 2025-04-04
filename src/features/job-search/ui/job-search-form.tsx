@@ -9,6 +9,8 @@ import Image from "next/image";
 import { useStoreSearchParams } from "@/stores/nuqs/use-store-search-params";
 import { useTranslations } from "next-intl";
 import { LocationRTO } from "@/features/job-search/models/mappers";
+import { Autocomplete } from "@/components/ui/auto-complete/auto-complete";
+
 interface LocationSearchProps {
   initialData: Promise<LocationRTO[]>;
 }
@@ -42,13 +44,13 @@ export function JobSearchForm({ initialData }: LocationSearchProps) {
           <Label htmlFor="location" className={styles.label}>
             {t("locationLabel")}
           </Label>
-          <AutocompleteSelect
-            id="location"
-            inputSize="md"
-            options={locationsResults || []}
+
+          <Autocomplete
+            suggestionsPromise={initialData}
+            onInputChange={(value) => setLocation(value)}
             placeholder={t("locationPlaceholder")}
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
+            listId="location-datalist"
+            inputValue={location || ""}
           />
         </VStack>
 

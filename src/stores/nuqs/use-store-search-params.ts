@@ -6,7 +6,7 @@ import { JobSearchParamsSchema } from "@/stores/nuqs/search-params";
 export function useStoreSearchParams() {
   const [params, setParams] = useQueryState(
     "filters",
-    parseAsJson(JobSearchParamsSchema.parse).withOptions({ throttleMs: 500 }).withDefault({
+    parseAsJson(JobSearchParamsSchema.parse).withOptions({ throttleMs: 300, shallow: false }).withDefault({
       tab: "location",
       distance: "15",
       keywords: "",
