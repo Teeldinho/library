@@ -1,70 +1,34 @@
-"use client";
-
-import { VStack, Label, Input, Button, AutocompleteSelect, Select } from "@/components/ui";
+import { Suspense } from "react";
+import { VStack } from "@/components/ui";
 import styles from "@/features/job-search/ui/job-search-form.module.css";
-import { DISTANCE_OPTIONS, LOCATION_OPTIONS } from "@/features/job-search/helpers/dummy-data";
-import SearchIcon from "../../../../public/search-icon.svg";
-import Image from "next/image";
-import { useStoreSearchParams } from "@/stores/nuqs/use-store-search-params";
-import { useTranslations } from "next-intl";
+import { KeywordsField } from "@/features/job-search/ui/keywords-field";
+import { LocationSearch } from "@/features/job-search/ui/location-search";
+import { DistanceSelect } from "@/features/job-search/ui/distance-select";
+import { SearchButton } from "@/features/job-search/ui/search-button";
+import { fetchLocations } from "@/features/job-search/api/queries";
+import { searchParamsCache } from "@/stores/nuqs/search-params";
 
-export function JobSearchForm() {
-  const { keywords, location, distance, setKeywords, setLocation, setDistance } = useStoreSearchParams();
+export async function JobSearchForm() {
+  const { location } = searchParamsCache.all();
 
-  const t = useTranslations("HomePage");
+  // Server-side data fetching:
+  // Here we start the fetching process from the server side,
+  // Then we pass the promise to the client side,
+  // Then, using the use(promise) hook, we get the data and pass it to the LocationSearch component.
+  const locationsPromise = fetchLocations(location); // Initial empty query
 
   return (
     <VStack space="lg" className={styles.formContainer}>
-      <VStack space="xs">
-        <Label htmlFor="keywords" className={styles.label}>
-          {t("jobLabel")}
-        </Label>
-        <Input
-          id="keywords"
-          placeholder={t("jobPlaceholder")}
-          className={styles.input}
-          value={keywords}
-          onChange={(e) => setKeywords(e.target.value)}
-        />
-      </VStack>
+      <KeywordsField />
 
       <div className={styles.locationRow}>
-        <VStack space="xs" className={styles.locationField}>
-          <Label htmlFor="location" className={styles.label}>
-            {t("locationLabel")}
-          </Label>
-          <AutocompleteSelect
-            id="location"
-            inputSize="md"
-            options={LOCATION_OPTIONS}
-            placeholder={t("locationPlaceholder")}
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-          />
-        </VStack>
-
-        <VStack space="xs" className={styles.distanceField}>
-          <Label htmlFor="distance" className={styles.label}>
-            {t("distanceLabel")}
-          </Label>
-          <Select
-            variant="default"
-            options={DISTANCE_OPTIONS}
-            placeholder={t("distancePlaceholder")}
-            value={distance}
-            onChange={(e) => setDistance(e.target.value as "5" | "10" | "15" | "20" | "30" | "50")}
-          />
-        </VStack>
+        <Suspense fallback={<div>Loading Location Input...</div>}>
+          <LocationSearch suggestionsPromise={locationsPromise} />
+        </Suspense>
+        <DistanceSelect />
       </div>
 
-      <div className={styles.buttonContainer}>
-        <Button variant="success" className={styles.searchButton}>
-          {t("searchButton")}
-          <div className={styles.searchIconContainer}>
-            <Image src={SearchIcon} alt="Search icon" className={styles.searchIcon} />
-          </div>
-        </Button>
-      </div>
+      <SearchButton />
     </VStack>
   );
 }

@@ -74,3 +74,15 @@
   width: 1rem;
   height: 1rem;
 }
+
+.loadingContainer {
+  height: 56px; /* Match input field height */
+  display: flex;
+  align-items: center;
+}
+
+.helpText {
+  color: var(--neutral-400);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}

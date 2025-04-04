@@ -8,6 +8,10 @@
     "distancePlaceholder": "15 miles",
     "searchButton": "Find jobs now",
     "jobsByLocation": "Jobs by Location",
-    "jobsByIndustry": "Jobs by Industry"
+    "jobsByIndustry": "Jobs by Industry",
+    "loadingSuggestions": "Loading suggestions...",
+    "locationInputHelp": "Type at least {minChars} characters to start searching",
+    "fetchError": "Could not load suggestions: {message}",
+    "noSuggestions": "No matching locations found"
   }
 }

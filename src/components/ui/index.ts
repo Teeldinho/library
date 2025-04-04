@@ -10,3 +10,4 @@ export { Container } from "./container/container";
 export { Input } from "./input/input";
 export { Label } from "./label/label";
 export { Select } from "./select/select";
+export { Autocomplete } from "./auto-complete/auto-complete";

@@ -1,31 +1,29 @@
 "use client";
 
-import { parseAsJson, useQueryState } from "nuqs";
-import { JobSearchParamsSchema } from "@/stores/nuqs/search-params";
+import { useQueryState } from "nuqs";
+import { searchParamsObject } from "@/stores/nuqs/search-params";
 
 export function useStoreSearchParams() {
-  const [params, setParams] = useQueryState(
-    "filters",
-    parseAsJson(JobSearchParamsSchema.parse).withOptions({ throttleMs: 500 }).withDefault({
-      tab: "location",
-      distance: "15",
-      keywords: "",
-      location: "",
-    })
-  );
+  // Keywords
+  const [keywords, setKeywords] = useQueryState("keywords", searchParamsObject.keywords);
 
-  const resetStore = () => setParams(JobSearchParamsSchema.parse({}));
-  const setTab = (tab: "location" | "industry") => setParams((prev) => ({ ...prev, tab }));
-  const setDistance = (distance: "5" | "10" | "15" | "20" | "30" | "50") => setParams((prev) => ({ ...prev, distance }));
-  const setKeywords = (keywords: string) => setParams((prev) => ({ ...prev, keywords }));
-  const setLocation = (location: string) => setParams((prev) => ({ ...prev, location }));
+  // Location
+  const [location, setLocation] = useQueryState("location", searchParamsObject.location);
+
+  // Distance
+  const [distance, setDistance] = useQueryState("distance", searchParamsObject.distance);
+
+  // Tab
+  const [tab, setTab] = useQueryState("tab", searchParamsObject.tab);
 
   return {
-    ...params,
-    setTab,
-    setDistance,
+    keywords: keywords,
+    location: location,
+    distance,
+    tab,
     setKeywords,
     setLocation,
-    resetStore,
+    setDistance,
+    setTab,
   };
 }

@@ -1,18 +1,24 @@
+import type { ComponentProps } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
-import type { ComponentProps } from "react";
-import styles from "./label.module.css";
+import styles from "@/components/ui/label/label.module.css";
 
 const labelVariants = cva(styles.base, {
   variants: {
     size: {
-      sm: styles.sizeSm,
-      md: styles.sizeMd,
-      lg: styles.sizeLg,
+      xs: styles["size-xs"],
+      sm: styles["size-sm"],
+      md: styles["size-md"],
+      xl: styles["size-xl"],
+    },
+    variant: {
+      default: styles["variant-default"],
+      muted: styles["variant-muted"],
     },
   },
   defaultVariants: {
     size: "md",
+    variant: "default",
   },
 });
 
