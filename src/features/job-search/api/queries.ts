@@ -10,9 +10,9 @@ import { hasMinChars } from "@/lib/validators";
  * @param query - The query to search for
  * @returns A FetchResult containing an array of LocationRTO objects
  */
-export async function fetchLocations(query: string) {
+export async function fetchLocations(query: string): Promise<FetchResult<LocationRTO[]>> {
   try {
-    if (!hasMinChars(query)) return { status: "success", data: [] };
+    if (!hasMinChars(query)) return handleSuccess([]);
 
     const response = await fetch(jobSearchEndpoints.locations(query), {
       next: { tags: jobSearchKeys.locations(query) },
@@ -21,10 +21,7 @@ export async function fetchLocations(query: string) {
 
     if (!response.ok) {
       const errorBody = await response.json().catch(() => null);
-      return {
-        status: "error",
-        message: errorBody?.message || `HTTP error! status: ${response.status}`,
-      };
+      return handleError(errorBody?.message || `HTTP error! status: ${response.status}`);
     }
 
     const data = await response.json();
