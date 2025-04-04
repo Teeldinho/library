@@ -1,16 +1,12 @@
 # CV Library Job Search
 
-A modern job search interface built with Next.js 15, showcasing React Server Components, intelligent URL-driven state management using NUQS, and a comprehensive UI design system. The application enables users to search for jobs by location or industry with real-time location suggestions from an external API.
+A modern job search interface built with Next.js 15 App Router, featuring real-time location autocomplete, multilingual support, and URL-driven state management - powered by a custom CSS design system.
 
 ![Job Search Interface](public/desktop-hero.png)
 
-## Project Overview
-
-This application provides a responsive job search form with real-time location auto-complete, distance selection, multilingual support, and the ability to toggle between job location and industry views using tabs.
-
 ### Frontend
 
-- **Next.js 15 App Router**: Server components fetch location data and pass promises to client components, optimizing initial load performance while maintaining interactivity.
+- **Next.js 15 App Router**: Server components enable hybrid rendering, fetching location data and passing promises to client components, optimizing initial load performance while maintaining interactivity.
 - **NUQS**: URL-based state management enables shareable search states and seamless server/client synchronization.
 - **CSS Modules**: Custom design system with design tokens, utility classes, and component variants.
 - **next-intl**: Internationalization with EN/FR/ES support and locale-specific routing.
