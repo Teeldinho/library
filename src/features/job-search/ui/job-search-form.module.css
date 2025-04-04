@@ -80,3 +80,9 @@
   display: flex;
   align-items: center;
 }
+
+.helpText {
+  color: var(--neutral-400);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}

@@ -5,15 +5,28 @@
   display: block;
 }
 
-.sizeSm {
+.size-sm {
   font-size: var(--text-sm);
 }
 
-.sizeMd {
+.size-md {
   font-size: var(--text-md);
 }
 
-.sizeLg {
+.size-xl {
   font-size: var(--text-lg);
   font-weight: 500;
+}
+
+.size-xs {
+  font-size: var(--text-xs);
+}
+
+.variant-default {
+  color: var(--foreground);
+}
+
+.variant-muted {
+  color: var(--neutral-400);
+  font-weight: 400;
 }

@@ -72,3 +72,23 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   z-index: 50;
 }
+
+.errorContainer {
+  padding: var(--space-sm);
+  background: var(--error-50);
+  border: 1px solid var(--error-200);
+  border-radius: 4px;
+  color: var(--error-600);
+}
+
+.emptyState {
+  padding: var(--space-sm) 0 0 0;
+  color: var(--primary-400);
+  font-style: italic;
+  font-size: var(--text-sm);
+}
+
+.errorText {
+  font-size: var(--text-sm);
+  color: var(--error-600);
+}

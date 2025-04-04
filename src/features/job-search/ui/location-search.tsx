@@ -7,14 +7,15 @@ import styles from "@/features/job-search/ui/job-search-form.module.css";
 import { VStack, Label } from "@/components/ui";
 import { LocationRTO } from "@/features/job-search/models/mappers";
 import { Suspense } from "react";
-
+import { FetchResult } from "@/lib/api-helpers";
 type LocationSearchProps = {
-  suggestionsPromise: Promise<LocationRTO[]>;
+  suggestionsPromise: Promise<FetchResult<LocationRTO[]>>;
 };
 
 export function LocationSearch({ suggestionsPromise }: LocationSearchProps) {
   const { location, setLocation } = useStoreSearchParams();
   const t = useTranslations("HomePage");
+  const showHelpText = (location?.length || 0) < 2;
 
   return (
     <VStack space="xs" className={styles.locationField}>
@@ -30,6 +31,11 @@ export function LocationSearch({ suggestionsPromise }: LocationSearchProps) {
           inputValue={location || ""}
         />
       </Suspense>
+      {showHelpText && (
+        <Label variant="muted" size="sm">
+          {t("locationInputHelp")}
+        </Label>
+      )}
     </VStack>
   );
 }

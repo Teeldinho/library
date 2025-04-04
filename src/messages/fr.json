@@ -9,6 +9,9 @@
     "searchButton": "Trouver emplois",
     "jobsByLocation": "Emplois par localisation",
     "jobsByIndustry": "Emplois par secteur",
-    "loadingSuggestions": "Chargement des suggestions..."
+    "loadingSuggestions": "Chargement des suggestions...",
+    "locationInputHelp": "Tapez au moins 2 caractères pour commencer la recherche",
+    "fetchError": "Impossible de charger les suggestions: {message}",
+    "noSuggestions": "Aucune localisation correspondante trouvée"
   }
 }
