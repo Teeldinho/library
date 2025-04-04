@@ -1,7 +1,7 @@
 "use client";
 
 import { Suspense, use } from "react";
-import styles from "./auto-complete.module.css";
+import styles from "@/components/ui/auto-complete/auto-complete.module.css";
 import { useTranslations } from "next-intl";
 
 export interface Suggestion {
@@ -37,7 +37,6 @@ export function Autocomplete<T extends Suggestion>({
         className={styles.input}
       />
 
-      {/* Fixed height container */}
       <div className={styles.suggestionsContainer}>
         <Suspense
           fallback={
@@ -54,7 +53,7 @@ export function Autocomplete<T extends Suggestion>({
 }
 
 // Suggestions Component
-async function Suggestions<T extends Suggestion>({ suggestionsPromise, datalistId }: { suggestionsPromise: Promise<T[]>; datalistId: string }) {
+function Suggestions<T extends Suggestion>({ suggestionsPromise, datalistId }: { suggestionsPromise: Promise<T[]>; datalistId: string }) {
   const suggestions = use(suggestionsPromise);
 
   return (

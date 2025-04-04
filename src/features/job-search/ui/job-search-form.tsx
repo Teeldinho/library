@@ -1,19 +1,15 @@
-import { VStack } from "@/components/ui";
-import styles from "./job-search-form.module.css";
-import { KeywordsField } from "./keywords-field";
-import { LocationSearch } from "./location-search";
-import { DistanceSelect } from "./distance-select";
-import { SearchButton } from "./search-button";
-import { fetchLocations } from "../api/queries";
-import { searchParamsCache } from "@/stores/nuqs/search-params";
 import { Suspense } from "react";
+import { VStack } from "@/components/ui";
+import styles from "@/features/job-search/ui/job-search-form.module.css";
+import { KeywordsField } from "@/features/job-search/ui/keywords-field";
+import { LocationSearch } from "@/features/job-search/ui/location-search";
+import { DistanceSelect } from "@/features/job-search/ui/distance-select";
+import { SearchButton } from "@/features/job-search/ui/search-button";
+import { fetchLocations } from "@/features/job-search/api/queries";
+import { searchParamsCache } from "@/stores/nuqs/search-params";
 
 export async function JobSearchForm() {
-  const {
-    filters: { location },
-  } = searchParamsCache.all();
-
-  console.log("\n\nLocation from Server = ", location);
+  const { location } = searchParamsCache.all();
 
   // Server-side data fetching
   const locationsPromise = fetchLocations(location || "Qu"); // Initial empty query
@@ -23,7 +19,7 @@ export async function JobSearchForm() {
       <KeywordsField />
 
       <div className={styles.locationRow}>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div>Loading Location Input...</div>}>
           <LocationSearch suggestionsPromise={locationsPromise} />
         </Suspense>
         <DistanceSelect />

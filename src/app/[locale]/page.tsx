@@ -1,13 +1,11 @@
-import styles from "./page.module.css";
-import { VStack, Center, Container, Autocomplete } from "@/components/ui";
-import { JobSearchForm, LocationTabs } from "@/features/job-search/ui";
+import type { SearchParams } from "nuqs/server";
 import CvLibraryLogo from "../../../public/library-logo.svg";
+import styles from "@/app/[locale]/page.module.css";
+import { VStack, Center, Container } from "@/components/ui";
+import { JobSearchForm, LocationTabs } from "@/features/job-search/ui";
 import Image from "next/image";
 import { searchParamsCache } from "@/stores/nuqs/search-params";
-import type { SearchParams } from "nuqs/server";
 import LanguageSwitcher from "@/features/languages/ui/language-switcher";
-import { fetchLocations } from "@/features/job-search/api/queries";
-import { Suspense, useId } from "react";
 
 type Props = {
   searchParams: Promise<SearchParams>;
@@ -16,15 +14,7 @@ type Props = {
 
 export default async function Home({ searchParams, params }: Props) {
   const { locale } = await params;
-
-  const { filters } = await searchParamsCache.parse(searchParams);
-
-  console.log("\n\nFilters = ", filters);
-
-  const locationsPromise = fetchLocations("Man");
-  // const locationsPromise = fetchLocations(filters.location || "");
-
-  const randomKey = Math.random();
+  await searchParamsCache.parse(searchParams);
 
   return (
     <VStack space="3xl" className={styles.main} align="stretch">
@@ -43,9 +33,7 @@ export default async function Home({ searchParams, params }: Props) {
           </Container>
 
           <Container>
-            <Suspense fallback={<div>Loading Search Form...</div>}>
-              <JobSearchForm initialData={locationsPromise} />
-            </Suspense>
+            <JobSearchForm />
           </Container>
         </VStack>
       </div>

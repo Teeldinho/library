@@ -1,31 +1,48 @@
 "use client";
 
-import { parseAsJson, useQueryState } from "nuqs";
+import { parseAsString, parseAsJson, useQueryState, parseAsStringEnum } from "nuqs";
 import { JobSearchParamsSchema } from "@/stores/nuqs/search-params";
 
 export function useStoreSearchParams() {
-  const [params, setParams] = useQueryState(
-    "filters",
-    parseAsJson(JobSearchParamsSchema.parse).withOptions({ throttleMs: 300, shallow: false }).withDefault({
-      tab: "location",
-      distance: "15",
-      keywords: "",
-      location: "",
-    })
+  // Keywords
+  const [keywords, setKeywords] = useQueryState(
+    "keywords",
+    parseAsString
+      .withOptions({
+        throttleMs: 300,
+        shallow: false,
+      })
+      .withDefault("")
   );
 
-  const resetStore = () => setParams(JobSearchParamsSchema.parse({}));
-  const setTab = (tab: "location" | "industry") => setParams((prev) => ({ ...prev, tab }));
-  const setDistance = (distance: "5" | "10" | "15" | "20" | "30" | "50") => setParams((prev) => ({ ...prev, distance }));
-  const setKeywords = (keywords: string) => setParams((prev) => ({ ...prev, keywords }));
-  const setLocation = (location: string) => setParams((prev) => ({ ...prev, location }));
+  // Location
+  const [location, setLocation] = useQueryState(
+    "location",
+    parseAsString
+      .withOptions({
+        throttleMs: 300,
+        shallow: false,
+      })
+      .withDefault("")
+  );
+
+  // Distance
+  const [distance, setDistance] = useQueryState(
+    "distance",
+    parseAsStringEnum(["5", "10", "15", "20", "30", "50"]).withOptions({ throttleMs: 300 }).withDefault("15")
+  );
+
+  // Tab
+  const [tab, setTab] = useQueryState("tab", parseAsStringEnum(["location", "industry"]).withOptions({ throttleMs: 300 }).withDefault("location"));
 
   return {
-    ...params,
-    setTab,
-    setDistance,
+    keywords: keywords || "",
+    location: location || "",
+    distance,
+    tab,
     setKeywords,
     setLocation,
-    resetStore,
+    setDistance,
+    setTab,
   };
 }
