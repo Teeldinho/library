@@ -8,7 +8,7 @@ export async function fetchLocations(query: string) {
 
   const response = await fetch(jobSearchEndpoints.locations(query), {
     next: { tags: jobSearchKeys.locations(query) },
-    cache: "no-store",
+    cache: "force-cache",
   });
 
   if (!response.ok) throw new Error("Failed to fetch locations");
