@@ -4,6 +4,7 @@ import { Suspense, use } from "react";
 import styles from "@/components/ui/auto-complete/auto-complete.module.css";
 import { useTranslations } from "next-intl";
 import { FetchResult } from "@/lib/api-helpers";
+import { hasMinChars } from "@/lib/validators";
 
 export interface Suggestion {
   value: string;
@@ -46,7 +47,7 @@ export function Autocomplete<T extends Suggestion>({
             </div>
           }
         >
-          <Suggestions datalistId={listId} suggestionsPromise={suggestionsPromise} />
+          <Suggestions datalistId={listId} suggestionsPromise={suggestionsPromise} inputValue={inputValue} />
         </Suspense>
       </div>
     </div>
@@ -57,9 +58,11 @@ export function Autocomplete<T extends Suggestion>({
 function Suggestions<T extends Suggestion>({
   suggestionsPromise,
   datalistId,
+  inputValue,
 }: {
   suggestionsPromise: Promise<FetchResult<T[]>>;
   datalistId: string;
+  inputValue: string;
 }) {
   const t = useTranslations("HomePage");
 
@@ -74,11 +77,13 @@ function Suggestions<T extends Suggestion>({
       </div>
     );
 
-  // If there are no suggestions, we display an empty state:
-  if (result.data.length === 0) return <div className={styles.emptyState}>{t("noSuggestions")}</div>;
+  // Only show empty state when valid search was performed
+  if (hasMinChars(inputValue) && result.data.length === 0) {
+    return <div className={styles.emptyState}>{t("noSuggestions")}</div>;
+  }
 
-  // If there are suggestions, we display the suggestions:
-  return (
+  // Only show suggestions when there are valid search characters
+  return hasMinChars(inputValue) ? (
     <datalist id={datalistId} className={styles.datalist}>
       {result.data.map((item) => (
         <option key={item.value} value={item.value} className={styles.option}>
@@ -86,5 +91,5 @@ function Suggestions<T extends Suggestion>({
         </option>
       ))}
     </datalist>
-  );
+  ) : null;
 }

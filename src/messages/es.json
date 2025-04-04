@@ -10,7 +10,7 @@
     "jobsByLocation": "Empleos por ubicación",
     "jobsByIndustry": "Empleos por industria",
     "loadingSuggestions": "Cargando sugerencias...",
-    "locationInputHelp": "Escriba al menos 2 caracteres para comenzar la búsqueda",
+    "locationInputHelp": "Escriba al menos {minChars} caracteres para comenzar la búsqueda",
     "fetchError": "No se pudieron cargar las sugerencias: {message}",
     "noSuggestions": "No se encontraron ubicaciones coincidentes"
   }

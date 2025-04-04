@@ -15,7 +15,7 @@ export async function JobSearchForm() {
   // Here we start the fetching process from the server side,
   // Then we pass the promise to the client side,
   // Then, using the use(promise) hook, we get the data and pass it to the LocationSearch component.
-  const locationsPromise = fetchLocations(location || "Qu"); // Initial empty query
+  const locationsPromise = fetchLocations(location); // Initial empty query
 
   return (
     <VStack space="lg" className={styles.formContainer}>

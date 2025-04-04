@@ -8,6 +8,8 @@ import { VStack, Label } from "@/components/ui";
 import { LocationRTO } from "@/features/job-search/models/mappers";
 import { Suspense } from "react";
 import { FetchResult } from "@/lib/api-helpers";
+import { hasMinChars, MIN_AUTOCOMPLETE_CHARS } from "@/lib/validators";
+
 type LocationSearchProps = {
   suggestionsPromise: Promise<FetchResult<LocationRTO[]>>;
 };
@@ -15,7 +17,7 @@ type LocationSearchProps = {
 export function LocationSearch({ suggestionsPromise }: LocationSearchProps) {
   const { location, setLocation } = useStoreSearchParams();
   const t = useTranslations("HomePage");
-  const showHelpText = (location?.length || 0) < 2;
+  const showHelpText = !hasMinChars(location);
 
   return (
     <VStack space="xs" className={styles.locationField}>
@@ -33,7 +35,7 @@ export function LocationSearch({ suggestionsPromise }: LocationSearchProps) {
       </Suspense>
       {showHelpText && (
         <Label variant="muted" size="sm">
-          {t("locationInputHelp")}
+          {t("locationInputHelp", { minChars: MIN_AUTOCOMPLETE_CHARS })}
         </Label>
       )}
     </VStack>

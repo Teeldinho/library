@@ -10,7 +10,7 @@
     "jobsByLocation": "Jobs by Location",
     "jobsByIndustry": "Jobs by Industry",
     "loadingSuggestions": "Loading suggestions...",
-    "locationInputHelp": "Type at least 2 characters to start searching",
+    "locationInputHelp": "Type at least {minChars} characters to start searching",
     "fetchError": "Could not load suggestions: {message}",
     "noSuggestions": "No matching locations found"
   }

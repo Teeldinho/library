@@ -74,7 +74,7 @@
 }
 
 .errorContainer {
-  padding: var(--space-sm);
+  margin-top: var(--space-sm);
   background: var(--error-50);
   border: 1px solid var(--error-200);
   border-radius: 4px;
@@ -90,5 +90,5 @@
 
 .errorText {
   font-size: var(--text-sm);
-  color: var(--error-600);
+  color: var(--error-500);
 }
