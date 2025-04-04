@@ -2,7 +2,7 @@
 
 A modern job search interface built with Next.js 15, showcasing React Server Components, intelligent URL-driven state management using NUQS, and a comprehensive UI design system. The application enables users to search for jobs by location or industry with real-time location suggestions from an external API.
 
-![Job Search Interface](public/desktop-landing-page.png)
+![Job Search Interface](public/desktop-hero.png)
 
 ## Project Overview
 
@@ -179,12 +179,13 @@ Alternatively, you can access the live application [here](https://library.teeldi
 
 ## Screenshots
 
-![Job Search Interface](public/desktop-english.png)
-![Job Search Interface](public/desktop-spanish.png)
-![Job Search Interface](public/desktop-french.png)
-![Job Search Interface](public/mobile-english.png)
-![Job Search Interface](public/mobile-french.png)
+![Job Search - Hero](public/desktop-hero.png)
+![Job Search - English](public/desktop-english.png)
+![Job Search - Spanish](public/desktop-spanish.png)
+![Job Search - French](public/desktop-french.png)
+![Job Search - English](public/mobile-english.png)
+![Job Search - French](public/mobile-french.png)
 
 ## Conclusion
 
-This project demonstrates modern React.js 19 and Next.js 15 application architecture by combining Server Components with URL-based state management, a custom UI design system, and strong typing. The implementation balances performance, developer experience, and user accessibility while providing a foundation that can scale to more complex job search functionality.
+This project demonstrates modern React.js 19 via Next.js 15 application architecture by combining Server Components with URL-based state management, a custom UI design system, and strong typing. The implementation balances performance, developer experience, and user accessibility while providing a foundation that can scale to more complex job search functionality.
