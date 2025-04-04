@@ -2,6 +2,7 @@
 
 import { Suspense, use } from "react";
 import styles from "./auto-complete.module.css";
+import { useTranslations } from "next-intl";
 
 export interface Suggestion {
   value: string;
@@ -23,6 +24,8 @@ export function Autocomplete<T extends Suggestion>({
   listId,
   inputValue,
 }: AutocompleteProps<T>) {
+  const t = useTranslations("HomePage");
+
   return (
     <div className={styles.autocomplete}>
       <input
@@ -39,7 +42,7 @@ export function Autocomplete<T extends Suggestion>({
         <Suspense
           fallback={
             <div className={styles.loadingContainer}>
-              <div className={styles.loading}>Loading suggestions...</div>
+              <div className={styles.loading}>{t("loadingSuggestions")}</div>
             </div>
           }
         >

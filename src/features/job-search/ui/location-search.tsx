@@ -25,7 +25,7 @@ export function LocationSearch({ suggestionsPromise }: LocationSearchProps) {
       <Label htmlFor="location" className={styles.label}>
         {t("locationLabel")}
       </Label>
-      <Suspense fallback={<div className={styles.loading}>Loading locations...</div>}>
+      <Suspense fallback={<div className={styles.loading}>{t("loadingLocations")}</div>}>
         <Autocomplete
           suggestionsPromise={suggestionsPromise}
           onInputChange={setLocation}

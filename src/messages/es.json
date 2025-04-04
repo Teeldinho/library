@@ -8,6 +8,7 @@
     "distancePlaceholder": "15 millas",
     "searchButton": "Buscar empleos",
     "jobsByLocation": "Empleos por ubicación",
-    "jobsByIndustry": "Empleos por industria"
+    "jobsByIndustry": "Empleos por industria",
+    "loadingSuggestions": "Cargando sugerencias..."
   }
 }
