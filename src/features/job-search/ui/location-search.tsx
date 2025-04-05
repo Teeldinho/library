@@ -29,23 +29,23 @@ export function LocationSearch({ suggestionsPromise }: LocationSearchProps) {
         {t("locationLabel")}
       </Label>
 
-      {/* <AutoComplete<LocationRTO>
+      <AutoComplete<LocationRTO>
         suggestions={suggestionsPromise}
         onSelect={(item) => setLocation(item.value)}
         inputValue={location || ""}
         onInputChange={(value) => setLocation(value)}
         placeholder={t("locationPlaceholder")}
         itemToString={(item) => item.label}
-      /> */}
+      />
 
-      <AutoComplete<LocationRTO>
+      {/* <AutoComplete<LocationRTO>
         suggestions={staticLocations}
         onSelect={(item) => setLocation(item.value)}
         inputValue={location || ""}
         onInputChange={(value) => setLocation(value)}
         placeholder={t("locationPlaceholder")}
         itemToString={(item) => item.label}
-      />
+      /> */}
 
       {showHelpText && (
         <Label variant="muted" size="sm">

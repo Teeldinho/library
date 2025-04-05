@@ -93,13 +93,18 @@ export function AutocompleteHeadless<T extends AutocompleteSuggestion>({
     [onSelect, itemToString, onInputChange]
   );
 
+  const filteredSuggestions = suggestions.filter((item) => {
+    const itemStr = itemToString ? itemToString(item) : item.label;
+    return itemStr.toLowerCase().includes(inputValue.toLowerCase());
+  });
+
   const getItemProps = (index: number): React.LiHTMLAttributes<HTMLLIElement> => ({
     role: "option",
     "aria-selected": highlightedIndex === index,
     onMouseEnter: () => setHighlightedIndex(index),
     onClick: () => {
       if (!isSuggestionsAPromise) {
-        handleSelect(suggestions[index]);
+        handleSelect(filteredSuggestions[index]);
       } else {
         suggestions.then((suggestions) => handleSelect(suggestions[index]));
       }
@@ -131,7 +136,7 @@ export function AutocompleteHeadless<T extends AutocompleteSuggestion>({
     getItemProps,
     isOpen,
     highlightedIndex,
-    suggestions: Array.isArray(suggestions) ? suggestions : [],
+    suggestions: filteredSuggestions,
     inputValue,
   });
 }
