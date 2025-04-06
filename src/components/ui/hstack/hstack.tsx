@@ -18,12 +18,16 @@ const hstackVariants = cva(styles.hstack, {
       start: styles["items-start"],
       center: styles["items-center"],
       end: styles["items-end"],
+      stretch: styles["items-stretch"],
+      baseline: styles["items-baseline"],
     },
     justify: {
       start: styles["justify-start"],
       center: styles["justify-center"],
       end: styles["justify-end"],
       between: styles["justify-between"],
+      around: styles["justify-around"],
+      evenly: styles["justify-evenly"],
     },
   },
   defaultVariants: {

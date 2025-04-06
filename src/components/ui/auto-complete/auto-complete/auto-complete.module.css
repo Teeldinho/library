@@ -42,17 +42,45 @@
 }
 
 .suggestionItem {
+  width: 100%;
   padding: var(--space-sm) var(--space-md);
   cursor: pointer;
   color: var(--foreground-dark);
+  transition: all 0.2s ease;
+  display: block;
 }
 
 .suggestionItem:hover {
-  background: var(--primary-100);
+  background-color: var(--primary-300);
+  color: var(--neutral-50);
 }
 
 .highlighted {
-  background-color: var(--primary-100);
+  background-color: var(--primary-300);
+  color: var(--neutral-50);
+}
+
+/* Custom item styling */
+.customItem {
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  cursor: pointer;
+  color: var(--foreground-dark);
+  transition: all 0.2s ease;
+  display: block;
+}
+
+.customItem:hover {
+  background-color: var(--primary-300);
+}
+
+.customItem.highlighted {
+  background-color: var(--primary-500);
+}
+
+.customItem:hover *,
+.customItem.highlighted * {
+  color: var(--neutral-50);
 }
 
 .loading {

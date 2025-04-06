@@ -1,9 +1,8 @@
 "use client";
 
 import { Suspense, use } from "react";
-import { AutocompleteHeadless, AutocompleteSuggestion } from "@/components/ui/auto-complete/auto-complete-headless/auto-complete-headless";
-// import styles from "@/components/ui/auto-complete-headless/auto-complete/autocomplete.module.css";
-import styles from "./auto-complete.module.css";
+import { AutocompleteHeadless, AutocompleteSuggestion } from "@/components/ui/auto-complete/auto-complete/auto-complete-headless";
+import styles from "@/components/ui/auto-complete/auto-complete/auto-complete.module.css";
 import { useTranslations } from "next-intl";
 import { FetchResult } from "@/lib/api-helpers";
 import { hasMinChars } from "@/lib/validators";
@@ -16,6 +15,7 @@ interface AutoCompleteProps<T extends AutocompleteSuggestion> {
   placeholder?: string;
   label?: string;
   itemToString?: (item: T) => string;
+  renderItem?: (props: { item: T; isHighlighted: boolean; isSelected: boolean }) => React.ReactNode;
 }
 
 export function AutoComplete<T extends AutocompleteSuggestion>({
@@ -26,6 +26,7 @@ export function AutoComplete<T extends AutocompleteSuggestion>({
   placeholder,
   label,
   itemToString,
+  renderItem,
 }: AutoCompleteProps<T>) {
   const t = useTranslations("HomePage");
   const resolvedSuggestions = suggestions instanceof Promise ? use(suggestions) : suggestions;
@@ -63,8 +64,10 @@ export function AutoComplete<T extends AutocompleteSuggestion>({
                     <li className={styles.errorContainer}>
                       <span className={styles.errorText}>{t("fetchError", { message: resolvedSuggestions.message })}</span>
                     </li>
-                  ) : hasMinChars(inputProps.value as string) && suggestions.length === 0 ? (
-                    <li className={styles.emptyState}>{t("noSuggestions")}</li>
+                  ) : hasMinChars(inputValue) && suggestions.length === 0 ? (
+                    <li className={styles.customItem}>
+                      <div className={styles.emptyState}>{t("noSuggestions")}</div>
+                    </li>
                   ) : (
                     suggestions.map((item, index) => (
                       <li
@@ -72,7 +75,15 @@ export function AutoComplete<T extends AutocompleteSuggestion>({
                         {...getItemProps(index)}
                         className={`${styles.suggestionItem} ${highlightedIndex === index ? styles.highlighted : ""}`}
                       >
-                        {itemToString ? itemToString(item) : item.label}
+                        {renderItem
+                          ? renderItem({
+                              item,
+                              isHighlighted: highlightedIndex === index,
+                              isSelected: false,
+                            })
+                          : itemToString
+                          ? itemToString(item)
+                          : item.label}
                       </li>
                     ))
                   )}
