@@ -7,7 +7,7 @@ import { VStack, Label, HStack } from "@/components/ui";
 import { LocationRTO } from "@/features/job-search/models/mappers";
 import { FetchResult } from "@/lib/api-helpers";
 import { hasMinChars, MIN_AUTOCOMPLETE_CHARS } from "@/lib/validators";
-import { AutoComplete } from "@/components/ui/auto-complete/auto-complete/auto-complete";
+import { AutoComplete } from "@/components/ui/auto-complete/auto-complete";
 
 type LocationSearchProps = {
   suggestionsPromise: Promise<FetchResult<LocationRTO[]>>;

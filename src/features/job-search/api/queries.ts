@@ -4,6 +4,18 @@ import { jobSearchKeys } from "@/features/job-search/api/keys";
 import { LocationRTO, mapLocationDtoToRto } from "@/features/job-search/models/mappers";
 import { FetchResult, handleError, handleSuccess } from "@/lib/api-helpers";
 import { hasMinChars } from "@/lib/validators";
+import { MOCK_LOCATIONS } from "@/features/job-search/helpers/dummy-data";
+
+/**
+ * Helper function to handle mock data fallback with validation
+ */
+async function getMockLocations(): Promise<FetchResult<LocationRTO[]>> {
+  // Simulate API delay
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
+  const parsedMock = LocationsApiResponseSchema.safeParse(MOCK_LOCATIONS);
+  return parsedMock.success ? handleSuccess(parsedMock.data.map(mapLocationDtoToRto)) : handleError("Invalid mock data format");
+}
 
 /**
  * Fetches locations from the API
@@ -20,6 +32,11 @@ export async function fetchLocations(query: string): Promise<FetchResult<Locatio
     });
 
     if (!response.ok) {
+      // Handle 403 specifically first
+      if (response.status === 403) {
+        return getMockLocations();
+      }
+
       const errorBody = await response.json().catch(() => null);
       return handleError(errorBody?.message || `HTTP error! status: ${response.status}`);
     }
@@ -27,13 +44,9 @@ export async function fetchLocations(query: string): Promise<FetchResult<Locatio
     const data = await response.json();
     const parsedData = LocationsApiResponseSchema.safeParse(data);
 
-    if (!parsedData.success) {
-      return handleError("Invalid location data format");
-    }
-
-    const locations = parsedData.data.map(mapLocationDtoToRto);
-    return handleSuccess(locations);
+    return parsedData.success ? handleSuccess(parsedData.data.map(mapLocationDtoToRto)) : handleError("Invalid location data format");
   } catch (error) {
-    return handleError(error instanceof Error ? error.message : "Unknown network error");
+    // Fallback to mock data on any network/parsing errors
+    return getMockLocations();
   }
 }

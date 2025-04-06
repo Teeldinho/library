@@ -9,6 +9,5 @@ export { Container } from "./container/container";
 export { Input } from "./input/input";
 export { Label } from "./label/label";
 export { Select } from "./select/select";
-// export { AutocompleteHeadless } from "./auto-complete/auto-complete/auto-complete-headless";
-export { AutocompleteHeadless } from "./auto-complete/auto-complete/auto-complete-headless";
-export { AutoComplete } from "./auto-complete/auto-complete/auto-complete";
+export { AutocompleteHeadless } from "./auto-complete/auto-complete-headless";
+export { AutoComplete } from "./auto-complete/auto-complete";
