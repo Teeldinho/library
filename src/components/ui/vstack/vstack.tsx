@@ -19,16 +19,26 @@ const vstackVariants = cva(styles.vstack, {
       center: styles["items-center"],
       end: styles["items-end"],
       stretch: styles["items-stretch"],
+      baseline: styles["items-baseline"],
+    },
+    justify: {
+      start: styles["justify-start"],
+      center: styles["justify-center"],
+      end: styles["justify-end"],
+      between: styles["justify-between"],
+      around: styles["justify-around"],
+      evenly: styles["justify-evenly"],
     },
   },
   defaultVariants: {
     space: "xs",
     align: "start",
+    justify: "start",
   },
 });
 
 type VStackProps = ComponentProps<"div"> & VariantProps<typeof vstackVariants>;
 
-export const VStack = ({ className, space, align, ...props }: VStackProps) => (
-  <div className={cn(vstackVariants({ space, align, className }))} {...props} />
+export const VStack = ({ className, space, align, justify, ...props }: VStackProps) => (
+  <div className={cn(vstackVariants({ space, align, justify, className }))} {...props} />
 );

@@ -6,7 +6,7 @@ export const searchParamsObject = {
     shallow: true,
   }),
   location: parseAsString.withDefault("").withOptions({
-    throttleMs: 300,
+    throttleMs: 750,
     shallow: false,
   }),
   distance: parseAsStringEnum(["5", "10", "15", "20", "30", "50"]).withDefault("15").withOptions({

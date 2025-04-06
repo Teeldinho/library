@@ -14,14 +14,26 @@ const labelVariants = cva(styles.base, {
     variant: {
       default: styles["variant-default"],
       muted: styles["variant-muted"],
+      primary: styles["variant-primary"],
+      secondary: styles["variant-secondary"],
+      accent: styles["variant-accent"],
+    },
+    weight: {
+      normal: styles["weight-normal"],
+      medium: styles["weight-medium"],
+      semibold: styles["weight-semibold"],
+      bold: styles["weight-bold"],
     },
   },
   defaultVariants: {
     size: "md",
     variant: "default",
+    weight: "normal",
   },
 });
 
 type LabelProps = ComponentProps<"label"> & VariantProps<typeof labelVariants>;
 
-export const Label = ({ className, size, ...props }: LabelProps) => <label className={cn(labelVariants({ size, className }))} {...props} />;
+export const Label = ({ className, size, variant, weight, ...props }: LabelProps) => (
+  <label className={cn(labelVariants({ size, variant, weight, className }))} {...props} />
+);

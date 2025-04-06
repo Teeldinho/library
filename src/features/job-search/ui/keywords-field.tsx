@@ -10,7 +10,7 @@ export function KeywordsField() {
   const t = useTranslations("HomePage");
 
   return (
-    <VStack space="xs">
+    <VStack space="xs" className={"w-full"}>
       <Label htmlFor="keywords" className={styles.label}>
         {t("jobLabel")}
       </Label>

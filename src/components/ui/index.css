@@ -4,10 +4,9 @@
 @import "./hstack/hstack.module.css";
 @import "./icon/icon.module.css";
 @import "./input/input.module.css";
-@import "./autocomplete-select/autocomplete-select.module.css";
 @import "./tabs/tabs.module.css";
 @import "./vstack/vstack.module.css";
 @import "./label/label.module.css";
 @import "./container/container.module.css";
 @import "./select/select.module.css";
-@import "./auto-complete/auto-complete.module.css";
+@import "./auto-complete/auto-complete/auto-complete.module.css";
