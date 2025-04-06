@@ -1,4 +1,4 @@
-# CV Library Job Search
+# Library Job Search
 
 A modern job search interface built with Next.js 15 App Router, featuring real-time location autocomplete, multilingual support, and URL-driven state management - powered by a custom CSS design system.
 
@@ -11,6 +11,7 @@ A modern job search interface built with Next.js 15 App Router, featuring real-t
 3. **Performance optimization** - Server Components for data fetching paired with client interactivity creates an optimal user experience
 4. **Internationalization by design** - Built-in multilingual support with locale-specific routing enhances accessibility
 5. **State preservation** - URL-driven state management with NUQS enables shareable application states
+6. **Resilient data handling** - Robust promise handling with Suspense and fallback mechanisms ensures graceful degradation
 
 ### Frontend
 
@@ -38,9 +39,10 @@ A modern job search interface built with Next.js 15 App Router, featuring real-t
 
   - **Production-Ready Implementation**:
     - Real-time API integration with location service
-    - Elegant loading, error, and empty states
+    - Elegant loading, error, and empty states with Suspense boundaries
     - Character validation with user feedback
     - Consistent styling with automatic hover states
+    - Resilient error handling with graceful fallbacks
 
 - **Multilingual Interface**:
 
@@ -84,6 +86,171 @@ This structure provides clear boundaries between different concerns, enabling:
 3. **Easier onboarding** for new developers through consistent patterns
 4. **Scalability** as new features can be added without affecting existing ones
 
+### Promise Handling with Suspense
+
+The application leverages React 19's modern data fetching patterns with Suspense to create a fluid user experience:
+
+```typescript
+// Conceptual flow in AutoComplete component
+<Suspense fallback={<LoadingList message="Loading suggestions..." />}>
+  <SuggestionsList suggestions={suggestionsPromise} />
+</Suspense>
+```
+
+This pattern allows for:
+
+1. **Progressive rendering** - The UI is streamed from server to client, allowing users to see and interact with parts of the page while other components are still loading
+2. **Decoupled data fetching** - Suspense boundaries isolate loading states to specific components rather than entire pages
+3. **Sequential user flows** - Loading states are shown before no-results states, creating a logical progression for users
+4. **Use hook integration** - React 19's `use` hook unwraps promises safely within Suspense boundaries
+5. **Fallback resiliency** - API failures trigger fallbacks to mock data after simulated delays
+
+The component gracefully handles both static data arrays and promises that resolve to data, providing flexibility in data sourcing while maintaining consistent UI patterns.
+
+### UI State Components
+
+The application implements specialized components for handling different UI states:
+
+```typescript
+// Loading state with customizable message and spinner
+<LoadingState
+  message="Loading content..."
+  variant="default"
+  size="sm"
+  alignment="center"
+/>
+
+// Empty state with customizable message and icon
+<EmptyState
+  message="No results found"
+  variant="default"
+  size="sm"
+  hideIcon={false}
+/>
+```
+
+These components provide:
+
+1. **Consistent user feedback** - Standardized appearance for loading and empty states
+2. **Flexible presentation** - Customizable sizing, alignment, and styling
+3. **Accessibility** - Proper ARIA attributes and semantic structure
+4. **List variants** - Specialized `LoadingList` and `EmptyList` for dropdown contexts
+
+Together with Suspense boundaries, these components create a cohesive approach to handling asynchronous operations and empty datasets throughout the application.
+
+### Data Transformation Pipeline
+
+The application implements a clear data transformation flow to decouple frontend from backend concerns:
+
+```typescript
+// 1. Schema definition validates API response structure
+export const LocationsApiResponseSchema = z.array(
+  z.object({
+    label: z.string(),
+    terms: z.array(z.string()),
+    displayLocation: z.string(),
+  })
+);
+
+// 2. Mapper transforms backend DTO to frontend-optimized RTO (mappers.ts)
+export interface LocationRTO {
+  label: string; // Display text
+  value: string; // Form value
+}
+
+export function mapLocationDtoToRto(dto: LocationApiDTO): LocationRTO {
+  const primaryTerm = dto.terms[0]; // Extract primary term for value
+  return {
+    label: dto.label,
+    value: dto.terms[0], // Extract primary term for value
+  };
+}
+
+// 3. API layer uses schemas for validation and mappers for transformation (queries.ts)
+export async function fetchLocations(query: string): Promise<FetchResult<LocationRTO[]>> {
+  // ...fetch implementation
+  const data = await response.json();
+
+  // Validate the API response structure using our ZOD schema
+  const parsedData = LocationsApiResponseSchema.safeParse(data);
+
+  // If the data is valid, transform it to the RTO format and return it
+  return parsedData.success ? handleSuccess(parsedData.data.map(mapLocationDtoToRto)) : handleError("Invalid data format");
+  // ...error handling and fallbacks
+}
+
+// 4. UI components consume the RTOs (location-search.tsx)
+<AutoComplete<LocationRTO>
+  suggestions={suggestionsPromise}
+  onSelect={(item) => setLocation(item.value)}
+  // ...other props
+  renderItem={({ item }) => (
+    <HStack>
+      <Label>{item.label}</Label>
+      <Label>{item.value}</Label>
+    </HStack>
+  )}
+/>;
+```
+
+This pattern creates a robust frontend architecture:
+
+1. **API contract validation** - Zod schemas ensure API responses match expected structure
+2. **Backend isolation** - Changes to API responses only require updates to mappers, not UI components
+3. **Frontend optimization** - RTOs contain only data needed by UI components
+4. **Graceful degradation** - Error handling with mock data fallbacks
+5. **Type safety** - TypeScript ensures correct data usage throughout the application
+
+### URL-Driven State with NUQS and Hybrid Rendering
+
+The application combines URL-based state management with Next.js 15's hybrid rendering for a powerful developer and user experience:
+
+```typescript
+// URL state definition
+export const searchParamsObject = {
+  location: parseAsString.withDefault("").withOptions({
+    throttleMs: 750, // Debounce user input
+    shallow: false, // Server participates when URL changes
+  }),
+};
+```
+
+This approach creates several key advantages:
+
+1. **Stateful URLs** - When a user shares `http://library.teeldinho.co.za/en?location=Great`, the recipient receives a page with pre-populated state
+2. **Hydration optimization** - Next.js recognizes URL parameters and can pre-fetch data server-side before sending HTML
+3. **Reduced loading states** - When navigating to a URL with parameters, loading states may be minimized or eliminated entirely as data is already available
+4. **Seamless transitions** - Server Components can prepare data based on URL parameters before client hydration
+5. **State persistence** - Browser history navigation preserves application state without additional client-side code
+
+For example, when a user selects "Great Yarmouth" from the location dropdown, `setLocation("Great Yarmouth")` updates the URL to `?location=Great%20Yarmouth`. If this URL is shared, Next.js can use this parameter to fetch location data server-side, potentially eliminating loading indicators entirely for the recipient.
+
+This pattern exemplifies Next.js 15's "full-stack to the frontend" approach, where server and client collaborate to optimize both initial and subsequent page loads.
+
+### Git Workflow Strategy
+
+The project employs GitHub Flow, a simplified Git branching strategy that's ideal for smaller teams or solo developers:
+
+```
+main         ○─────○─────○─────○─────○
+              \     \     \     /     /
+feature-1      ○─────○─────○───○
+                      \         /
+feature-2               ○───○──○
+                               \
+hotfix-1                        ○───○
+```
+
+Key aspects of this approach:
+
+1. **Single production branch** (`main`) - Always deployable and protected
+2. **Feature branches** - Created for new features, merged via pull requests
+3. **Hotfix branches** - Created for urgent production fixes
+4. **No develop branch** - Simplifies the workflow for smaller teams
+5. **Pull request reviews** - Code quality gate before merging to main
+
+This simplified workflow provides adequate structure while eliminating the overhead of more complex strategies like GitFlow, which is more suitable for larger teams with coordinated release cycles.
+
 ### Design System with CSS Variables
 
 The project implements a comprehensive design system using CSS custom properties instead of a UI framework like Tailwind:
@@ -105,112 +272,75 @@ This approach provides several benefits:
 3. **Improved performance** with native CSS instead of utility class processing
 4. **Better maintainability** through semantic variable naming
 
-### URL-Driven State with NUQS and Promise Unwrapping
-
-The application implements a powerful data flow pattern combining URL-based state management with React 19's `use()` hook:
-
-```typescript
-// NUQS configuration with validation and throttling
-export const searchParamsObject = {
-  keywords: parseAsString.withDefault("").withOptions({
-    throttleMs: 300, // Throttle keyword search to prevent API spam
-    shallow: true, // No server requests when URL changes
-  }),
-  location: parseAsString.withDefault("").withOptions({
-    throttleMs: 750, // Higher throttle for location search
-    shallow: false, // Server requests when URL changes
-  }),
-};
-```
-
-This URL-driven state approach offers significant advantages:
-
-1. **Shareable links** preserve search state for collaboration
-2. **Browser history integration** works naturally with back/forward navigation
-3. **Server/client synchronization** maintains consistent state
-4. **SEO benefits** from meaningful URL parameters
-5. **Performance optimization** through throttling and selective server requests
-
-The NUQS state management pairs naturally with React's `use()` hook to handle both synchronous and asynchronous data:
-
-```typescript
-// From auto-complete.tsx
-export function AutoComplete<T extends AutocompleteSuggestion>({
-  suggestions, // Can be either T[] or Promise<FetchResult<T[]>>
-}: AutoCompleteProps<T>) {
-  // Unwrap promise if needed, otherwise use as-is
-  const resolvedSuggestions = suggestions instanceof Promise ? use(suggestions) : suggestions;
-
-  // Process resolved data appropriately
-  // ...
-}
-
-// From location-search.tsx
-export function LocationSearch({ suggestionsPromise }: LocationSearchProps) {
-  const { location, setLocation } = useStoreSearchParams(); // NUQS hook
-
-  // Can switch between API data and static data as needed
-  return (
-    <AutoComplete<LocationRTO>
-      suggestions={suggestionsPromise} // Promise from server component
-      // Static option: suggestions={staticLocations}
-      onSelect={(item) => setLocation(item.label)}
-    />
-  );
-}
-```
-
-This combined pattern enables:
-
-1. **Data source flexibility** - Components accept both static arrays and API promises
-2. **Suspense integration** - Automatic loading states through React Suspense
-3. **Progressive enhancement** - Server components fetch data and prepare it as a promise, client components unwrap the promise using the `use()` hook
-4. **Graceful degradation** - Fallback to static data when needed
-5. **Unified state management** - URL parameters drive both UI state and data fetching, making server/client state synchronization seamless
-
 ### Headless Component Pattern
 
-The Location Autocomplete implements a powerful headless component pattern:
+The application implements a powerful headless component pattern for the autocomplete functionality:
 
 ```typescript
 // Core functionality without UI (auto-complete-headless.tsx)
-export function AutocompleteHeadless<T>({ suggestions, onSelect, itemToString, inputValue, onInputChange, children }: AutocompleteHeadlessProps<T>) {
+export function AutocompleteHeadless<T extends AutocompleteSuggestion>({
+  onSelect,
+  inputValue,
+  onInputChange,
+  itemToString,
+  children,
+}: AutocompleteHeadlessProps<T>) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [highlightedIndex, setHighlightedIndex] = useState<number | null>(null);
+
   // State and behavior logic...
 
   return children({
-    inputProps, // Props for the input element
-    listProps, // Props for the suggestion list
-    getItemProps, // Function to get props for each suggestion item
-    isOpen, // Whether the dropdown is open
-    highlightedIndex, // Currently highlighted item index
-    suggestions, // Filtered suggestions
-    inputValue, // Current input value
+    inputProps: {
+      id: inputId,
+      value: inputValue,
+      onChange: handleInputChange,
+      onKeyDown: handleKeyDown,
+      onFocus: () => setIsOpen(true),
+      // More accessibility attributes...
+    },
+    listProps: {
+      id: listId,
+      role: "listbox",
+    },
+    getItemProps,
+    isOpen,
+    highlightedIndex,
   });
 }
 
-// Example usage with custom rendering (location-search.tsx)
-<AutoComplete<LocationRTO>
-  suggestions={suggestionsPromise}
-  // Other props...
-  renderItem={({ item, isHighlighted }) => (
-    <HStack space="sm" align="center" className={"w-full"}>
-      <Label variant="default" weight="medium">
-        {item.label}
-      </Label>
-      <Label variant="muted" size="sm" weight="normal">
-        {item.value}
-      </Label>
-    </HStack>
+// Implementation with UI (auto-complete.tsx)
+<AutocompleteHeadless suggestions={suggestions} onSelect={onSelect} inputValue={inputValue} onInputChange={onInputChange} itemToString={itemToString}>
+  {({ inputProps, listProps, getItemProps, isOpen, highlightedIndex }) => (
+    <div className={styles.autocomplete}>
+      {label && <Label htmlFor={inputProps.id}>{label}</Label>}
+      <input {...inputProps} className={styles.input} placeholder={placeholder} />
+
+      {isOpen && hasMinChars(inputValue) && (
+        <div className={styles.suggestionsContainer}>
+          <Suspense fallback={<LoadingList message={t("loadingSuggestions")} />}>
+            <SuggestionsList
+              suggestions={suggestions}
+              // Other props...
+              renderItem={renderItem}
+            />
+          </Suspense>
+        </div>
+      )}
+    </div>
   )}
-/>;
+</AutocompleteHeadless>;
 ```
 
 This pattern offers several key advantages:
 
-1. **Separation of concerns** - Logic and UI can evolve independently
-2. **Improved testability** - Core behaviors can be tested in isolation
-3. **Maximum flexibility** - UI can be completely customized
-4. **Accessibility built-in** - ARIA attributes handled by the core component
+1. **Separation of concerns** - Core logic (keyboard navigation, state management) is isolated from the UI presentation
+2. **Accessibility by default** - ARIA attributes and keyboard interactions are handled by the headless component
+3. **Flexible UI customization** - The `renderItem` prop enables complete control over suggestion appearance
+4. **Progressive enhancement** - Suspense integration enables elegant loading and empty states
+5. **Type safety** - Generic typing ensures consistent data handling throughout the component hierarchy
+
+The headless pattern creates a robust foundation that can be styled differently across the application while maintaining consistent behavior and accessibility.
 
 ### Type-Safe API Layer
 
@@ -292,6 +422,18 @@ Alternatively, you can access the live application [here](https://library.teeldi
 
 ## Conclusion
 
-This project demonstrates how separating UI from logic through headless components creates a more maintainable and flexible application. By leveraging modern React patterns, Next.js capabilities, and TypeScript's type safety, the implementation achieves a balance between developer experience and end-user performance.
+This project demonstrates a comprehensive approach to modern web application architecture by integrating several key patterns and technologies:
 
-The approach taken provides a foundation that can easily scale to more complex requirements while maintaining code quality and component reusability across the application.
+1. **Decoupled UI architecture** - Headless components separate logic from presentation, improving flexibility and maintainability while enabling design system consistency
+
+2. **Resilient data handling** - A pipeline of schemas → DTOs → mappers → RTOs creates a robust barrier against API changes and ensures type safety
+
+3. **State synchronization** - URL-based state management with NUQS enables seamless server/client synchronization, shareable application states, and improved navigation
+
+4. **Progressive enhancement** - Server components fetch data that client components consume, striking an optimal balance between performance and interactivity
+
+5. **Developer experience** - GitHub Flow simplifies collaboration while maintaining code quality through pull requests
+
+6. **User experience** - Careful attention to loading states, error handling, and empty states ensures a polished interface regardless of network conditions
+
+The combination of these patterns creates a foundation that balances technical excellence with practical considerations, resulting in an application that performs well for users while remaining maintainable for developers. The architecture scales naturally to accommodate more complex features while preserving the established patterns.
