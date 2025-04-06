@@ -2,24 +2,45 @@
 
 A modern job search interface built with Next.js 15 App Router, featuring real-time location autocomplete, multilingual support, and URL-driven state management - powered by a custom CSS design system.
 
-![Job Search Interface](public/desktop-hero.png)
+![Job Search Interface](public/desktop-hero-2.png)
+
+## Architectural Highlights
+
+1. **Compositional UI** - The render props pattern allows component consumers to customize presentation while the core handles complex behaviors
+2. **Type-safe interactions** - End-to-end TypeScript integration with discriminated unions ensures robust error handling
+3. **Performance optimization** - Server Components for data fetching paired with client interactivity creates an optimal user experience
+4. **Internationalization by design** - Built-in multilingual support with locale-specific routing enhances accessibility
+5. **State preservation** - URL-driven state management with NUQS enables shareable application states
 
 ### Frontend
 
-- **Next.js 15 App Router**: Server components enable hybrid rendering, fetching location data and passing promises to client components, optimizing initial load performance while maintaining interactivity.
+- **Next.js 15 App Router**: Server components enable hybrid rendering, fetching location data and passing promises to client components, which unwrap the promises on the client using the `use` hook, optimizing initial load performance while maintaining interactivity.
 - **NUQS**: URL-based state management enables shareable search states and seamless server/client synchronization.
-- **CSS Modules**: Custom design system with design tokens, utility classes, and component variants.
+- **CSS Modules and CSS Variables**: Custom design system with design tokens using CSS variables, utility classes, and component variants.
 - **next-intl**: Internationalization with EN/FR/ES support and locale-specific routing.
-- **TypeScript**: End-to-end type safety with discriminated unions for error handling.
+- **TypeScript**: End-to-end type safety with discriminated unions for error and success states.
 
 ## Key Features
 
 - **Smart Location Autocomplete**:
 
-  - Real-time API integration with the CV Library locations service
-  - Minimum character validation to prevent unnecessary API calls
-  - Elegant loading, error, and empty states
-  - Character count validation with helpful user feedback
+  - **Headless Component Architecture**:
+
+    - Separation of core logic from UI presentation
+    - Accessibility-first design with ARIA attributes
+    - Keyboard navigation and focus management
+
+  - **Render Props Pattern**:
+
+    - Complete UI customization through `renderItem` prop
+    - Composable with design system components (HStack, Label)
+    - State-aware rendering with highlighted/selected indicators
+
+  - **Production-Ready Implementation**:
+    - Real-time API integration with location service
+    - Elegant loading, error, and empty states
+    - Character validation with user feedback
+    - Consistent styling with automatic hover states
 
 - **Multilingual Interface**:
 
@@ -39,6 +60,29 @@ A modern job search interface built with Next.js 15 App Router, featuring real-t
   - Streaming with Suspense for improved user experience
 
 ## Architectural Decisions
+
+### Feature-Sliced Design-inspired File Structure
+
+The project adopts a simplified version of Feature-Sliced Design (FSD) for code organization:
+
+```
+src/
+├── features/          # Business domains
+│   └── job-search/    # Domain-specific feature
+│       ├── ui/        # Presentational components
+│       ├── api/       # API clients & queries
+│       └── models/    # Type definitions & schemas
+├── components/        # Shared UI primitives
+├── styles/            # Global styles & design system
+└── lib/               # Generic utilities
+```
+
+This structure provides clear boundaries between different concerns, enabling:
+
+1. **Better code navigation** by grouping related files
+2. **Improved maintainability** through isolation of feature modules
+3. **Easier onboarding** for new developers through consistent patterns
+4. **Scalability** as new features can be added without affecting existing ones
 
 ### Design System with CSS Variables
 
@@ -61,53 +105,112 @@ This approach provides several benefits:
 3. **Improved performance** with native CSS instead of utility class processing
 4. **Better maintainability** through semantic variable naming
 
-### URL-Driven State with NUQS
+### URL-Driven State with NUQS and Promise Unwrapping
 
-The application uses NUQS for URL-based state management instead of React's useState:
+The application implements a powerful data flow pattern combining URL-based state management with React 19's `use()` hook:
 
 ```typescript
-// Configuration with validation and throttling
+// NUQS configuration with validation and throttling
 export const searchParamsObject = {
   keywords: parseAsString.withDefault("").withOptions({
-    throttleMs: 300,
-    shallow: true,
+    throttleMs: 300, // Throttle keyword search to prevent API spam
+    shallow: true, // No server requests when URL changes
   }),
   location: parseAsString.withDefault("").withOptions({
-    throttleMs: 300,
-    shallow: false,
+    throttleMs: 750, // Higher throttle for location search
+    shallow: false, // Server requests when URL changes
   }),
 };
 ```
 
-This approach offers significant advantages:
+This URL-driven state approach offers significant advantages:
 
 1. **Shareable links** preserve search state for collaboration
 2. **Browser history integration** works naturally with back/forward navigation
 3. **Server/client synchronization** maintains consistent state
 4. **SEO benefits** from meaningful URL parameters
+5. **Performance optimization** through throttling and selective server requests
 
-### Feature-Sliced Structure
+The NUQS state management pairs naturally with React's `use()` hook to handle both synchronous and asynchronous data:
 
-The project adopts a simplified version of Feature-Sliced Design for code organization:
+```typescript
+// From auto-complete.tsx
+export function AutoComplete<T extends AutocompleteSuggestion>({
+  suggestions, // Can be either T[] or Promise<FetchResult<T[]>>
+}: AutoCompleteProps<T>) {
+  // Unwrap promise if needed, otherwise use as-is
+  const resolvedSuggestions = suggestions instanceof Promise ? use(suggestions) : suggestions;
 
+  // Process resolved data appropriately
+  // ...
+}
+
+// From location-search.tsx
+export function LocationSearch({ suggestionsPromise }: LocationSearchProps) {
+  const { location, setLocation } = useStoreSearchParams(); // NUQS hook
+
+  // Can switch between API data and static data as needed
+  return (
+    <AutoComplete<LocationRTO>
+      suggestions={suggestionsPromise} // Promise from server component
+      // Static option: suggestions={staticLocations}
+      onSelect={(item) => setLocation(item.label)}
+    />
+  );
+}
 ```
-src/
-├── features/          # Business domains
-│   └── job-search/    # Domain-specific feature
-│       ├── ui/        # Presentational components
-│       ├── api/       # API clients & queries
-│       └── models/    # Type definitions & schemas
-├── components/        # Shared UI primitives
-├── styles/            # Global styles & design system
-└── lib/               # Generic utilities
+
+This combined pattern enables:
+
+1. **Data source flexibility** - Components accept both static arrays and API promises
+2. **Suspense integration** - Automatic loading states through React Suspense
+3. **Progressive enhancement** - Server components fetch data and prepare it as a promise, client components unwrap the promise using the `use()` hook
+4. **Graceful degradation** - Fallback to static data when needed
+5. **Unified state management** - URL parameters drive both UI state and data fetching, making server/client state synchronization seamless
+
+### Headless Component Pattern
+
+The Location Autocomplete implements a powerful headless component pattern:
+
+```typescript
+// Core functionality without UI (auto-complete-headless.tsx)
+export function AutocompleteHeadless<T>({ suggestions, onSelect, itemToString, inputValue, onInputChange, children }: AutocompleteHeadlessProps<T>) {
+  // State and behavior logic...
+
+  return children({
+    inputProps, // Props for the input element
+    listProps, // Props for the suggestion list
+    getItemProps, // Function to get props for each suggestion item
+    isOpen, // Whether the dropdown is open
+    highlightedIndex, // Currently highlighted item index
+    suggestions, // Filtered suggestions
+    inputValue, // Current input value
+  });
+}
+
+// Example usage with custom rendering (location-search.tsx)
+<AutoComplete<LocationRTO>
+  suggestions={suggestionsPromise}
+  // Other props...
+  renderItem={({ item, isHighlighted }) => (
+    <HStack space="sm" align="center" className={"w-full"}>
+      <Label variant="default" weight="medium">
+        {item.label}
+      </Label>
+      <Label variant="muted" size="sm" weight="normal">
+        {item.value}
+      </Label>
+    </HStack>
+  )}
+/>;
 ```
 
-This structure provides clear boundaries between different concerns, enabling:
+This pattern offers several key advantages:
 
-1. **Better code navigation** by grouping related files
-2. **Improved maintainability** through isolation of feature modules
-3. **Easier onboarding** for new developers through consistent patterns
-4. **Scalability** as new features can be added without affecting existing ones
+1. **Separation of concerns** - Logic and UI can evolve independently
+2. **Improved testability** - Core behaviors can be tested in isolation
+3. **Maximum flexibility** - UI can be completely customized
+4. **Accessibility built-in** - ARIA attributes handled by the core component
 
 ### Type-Safe API Layer
 
@@ -117,10 +220,16 @@ The application implements a robust pattern for API interactions:
 // Discriminated union type for success/error states
 export type FetchResult<T> = { status: "success"; data: T } | { status: "error"; message: string };
 
-// Helper functions enforce the correct shape
+// Helper functions enforce the correct Success shape
 export const handleSuccess = <T>(data: T): FetchResult<T> => ({
   status: "success",
   data,
+});
+
+// Helper functions enforce the correct Error shape
+export const handleError = (message: string): FetchResult<never> => ({
+  status: "error",
+  message,
 });
 ```
 
@@ -159,7 +268,6 @@ The i18n implementation provides:
 - **Advanced Search Options**: Implement additional filtering criteria for job searches
 - **Saved Searches**: Allow users to save and manage their frequent searches
 - **Automated Testing**: Implement E2E and component tests with Playwright and Vitest
-- **Accessibility Audit**: Conduct formal accessibility testing and remediation
 
 ## Getting Started
 
@@ -175,7 +283,7 @@ Alternatively, you can access the live application [here](https://library.teeldi
 
 ## Screenshots
 
-![Job Search - Hero](public/desktop-hero.png)
+![Job Search - Hero](public/desktop-hero-2.png)
 ![Job Search - English](public/desktop-english.png)
 ![Job Search - Spanish](public/desktop-spanish.png)
 ![Job Search - French](public/desktop-french.png)
@@ -184,4 +292,6 @@ Alternatively, you can access the live application [here](https://library.teeldi
 
 ## Conclusion
 
-This project demonstrates modern React.js 19 via Next.js 15 application architecture by combining Server Components with URL-based state management, a custom UI design system, and strong typing. The implementation balances performance, developer experience, and user accessibility while providing a foundation that can scale to more complex job search functionality.
+This project demonstrates how separating UI from logic through headless components creates a more maintainable and flexible application. By leveraging modern React patterns, Next.js capabilities, and TypeScript's type safety, the implementation achieves a balance between developer experience and end-user performance.
+
+The approach taken provides a foundation that can easily scale to more complex requirements while maintaining code quality and component reusability across the application.
