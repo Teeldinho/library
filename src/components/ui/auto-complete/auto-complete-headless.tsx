@@ -17,7 +17,7 @@ interface AutocompleteHeadlessProps<T extends AutocompleteSuggestion> {
   children: (props: {
     inputProps: React.InputHTMLAttributes<HTMLInputElement>;
     listProps: React.HTMLAttributes<HTMLUListElement>;
-    getItemProps: (index: number) => React.HTMLAttributes<HTMLLIElement>;
+    getItemProps: (index: number, item: T) => React.HTMLAttributes<HTMLLIElement>;
     isOpen: boolean;
     highlightedIndex: number | null;
   }) => React.ReactNode;
@@ -67,15 +67,16 @@ export function AutocompleteHeadless<T extends AutocompleteSuggestion>({
   }, []);
 
   const getItemProps = useCallback(
-    (index: number) => ({
+    (index: number, item: T) => ({
       onMouseEnter: () => setHighlightedIndex(index),
       onMouseLeave: () => setHighlightedIndex(null),
       onClick: () => {
+        if (onSelect) onSelect(item);
         setIsOpen(false);
         setHighlightedIndex(null);
       },
     }),
-    []
+    [onSelect]
   );
 
   return children({

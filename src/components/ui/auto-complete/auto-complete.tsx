@@ -7,6 +7,8 @@ import { useTranslations } from "next-intl";
 import { FetchResult } from "@/lib/api-helpers";
 import { hasMinChars } from "@/lib/validators";
 import { Label } from "@/components/ui/label/label";
+import { LoadingList } from "@/components/ui/loading-state/loading-state";
+import { EmptyList } from "@/components/ui/empty-state/empty-state";
 
 interface AutoCompleteProps<T extends AutocompleteSuggestion> {
   suggestions: T[] | Promise<FetchResult<T[]>>;
@@ -43,17 +45,7 @@ export function AutoComplete<T extends AutocompleteSuggestion>(props: AutoComple
 
           {isOpen && hasMinChars(inputValue) && (
             <div className={styles.suggestionsContainer}>
-              <Suspense
-                fallback={
-                  <ul className={styles.suggestionsList}>
-                    <li className={styles.suggestionItem}>
-                      <Label variant="muted" weight="medium">
-                        {t("loadingSuggestions")}
-                      </Label>
-                    </li>
-                  </ul>
-                }
-              >
+              <Suspense fallback={<LoadingList message={t("loadingSuggestions")} />}>
                 <SuggestionsList
                   suggestions={suggestions}
                   inputValue={inputValue}
@@ -83,7 +75,7 @@ function SuggestionsList<T extends AutocompleteSuggestion>({
 }: {
   suggestions: T[] | Promise<FetchResult<T[]>>;
   inputValue: string;
-  getItemProps: (index: number) => React.HTMLAttributes<HTMLLIElement>;
+  getItemProps: (index: number, item: T) => React.HTMLAttributes<HTMLLIElement>;
   highlightedIndex: number | null;
   listProps: React.HTMLAttributes<HTMLUListElement>;
   itemToString?: (item: T) => string;
@@ -106,21 +98,17 @@ function SuggestionsList<T extends AutocompleteSuggestion>({
   });
 
   if (hasMinChars(inputValue) && filtered.length === 0) {
-    return (
-      <ul className={styles.suggestionsList}>
-        <li className={styles.suggestionItem}>
-          <Label variant="muted" weight="medium">
-            {t("noSuggestions")}
-          </Label>
-        </li>
-      </ul>
-    );
+    return <EmptyList message={t("noSuggestions")} />;
   }
 
   return (
     <ul {...listProps} className={styles.suggestionsList}>
       {filtered.map((item, index) => (
-        <li key={item.value} {...getItemProps(index)} className={`${styles.suggestionItem} ${highlightedIndex === index ? styles.highlighted : ""}`}>
+        <li
+          key={item.value}
+          {...getItemProps(index, item)}
+          className={`${styles.suggestionItem} ${highlightedIndex === index ? styles.highlighted : ""}`}
+        >
           {renderItem ? (
             renderItem({
               item,

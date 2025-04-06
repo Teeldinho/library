@@ -11,7 +11,7 @@ import { MOCK_LOCATIONS } from "@/features/job-search/helpers/dummy-data";
  */
 async function getMockLocations(): Promise<FetchResult<LocationRTO[]>> {
   // Simulate API delay
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await new Promise((resolve) => setTimeout(resolve, 250));
 
   const parsedMock = LocationsApiResponseSchema.safeParse(MOCK_LOCATIONS);
   return parsedMock.success ? handleSuccess(parsedMock.data.map(mapLocationDtoToRto)) : handleError("Invalid mock data format");
@@ -28,7 +28,7 @@ export async function fetchLocations(query: string): Promise<FetchResult<Locatio
 
     const response = await fetch(jobSearchEndpoints.locations(query), {
       next: { tags: jobSearchKeys.locations(query) },
-      cache: "force-cache",
+      cache: "no-store",
     });
 
     if (!response.ok) {
