@@ -143,7 +143,7 @@ Together with Suspense boundaries, these components create a cohesive approach t
 The application implements a clear data transformation flow to decouple frontend from backend concerns:
 
 ```typescript
-// 1. Schema definition validates API response structure
+// 1. Schema definition validates API response structure (schemas.ts)
 export const LocationsApiResponseSchema = z.array(
   z.object({
     label: z.string(),
@@ -152,12 +152,16 @@ export const LocationsApiResponseSchema = z.array(
   })
 );
 
-// 2. Mapper transforms backend DTO to frontend-optimized RTO (mappers.ts)
+// 2. DTO definition - we use the schema to infer and define the DTO that will be used by the API layer (schemas.ts)
+export type LocationApiDTO = z.infer<typeof LocationApiSchema>;
+
+// 3. RTO definition - we define the RTO that will be used by the UI components (mappers.ts)
 export interface LocationRTO {
   label: string; // Display text
   value: string; // Form value
 }
 
+// 4. Mapper function - we use the DTO to transform the API response data to the RTO (mappers.ts)
 export function mapLocationDtoToRto(dto: LocationApiDTO): LocationRTO {
   const primaryTerm = dto.terms[0]; // Extract primary term for value
   return {
@@ -166,7 +170,7 @@ export function mapLocationDtoToRto(dto: LocationApiDTO): LocationRTO {
   };
 }
 
-// 3. API layer uses schemas for validation and mappers for transformation (queries.ts)
+// 5. API layer uses schemas for validation and mappers for transformation (queries.ts)
 export async function fetchLocations(query: string): Promise<FetchResult<LocationRTO[]>> {
   // ...fetch implementation
   const data = await response.json();
@@ -179,7 +183,7 @@ export async function fetchLocations(query: string): Promise<FetchResult<Locatio
   // ...error handling and fallbacks
 }
 
-// 4. UI components consume the RTOs (location-search.tsx)
+// 6. UI components consume the RTOs (location-search.tsx)
 <AutoComplete<LocationRTO>
   suggestions={suggestionsPromise}
   onSelect={(item) => setLocation(item.value)}
