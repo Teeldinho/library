@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import { VStack } from "@/components/ui";
 import styles from "@/features/job-search/ui/job-search-form.module.css";
 import { KeywordsField } from "@/features/job-search/ui/keywords-field";
@@ -15,16 +14,14 @@ export async function JobSearchForm() {
   // Here we start the fetching process from the server side,
   // Then we pass the promise to the client side,
   // Then, using the use(promise) hook, we get the data and pass it to the LocationSearch component.
-  const locationsPromise = fetchLocations(location); // Initial empty query
+  const locationsPromise = fetchLocations(location);
 
   return (
     <VStack space="lg" className={styles.formContainer}>
       <KeywordsField />
 
       <div className={styles.locationRow}>
-        <Suspense fallback={<div>Loading Location Input...</div>}>
-          <LocationSearch suggestionsPromise={locationsPromise} />
-        </Suspense>
+        <LocationSearch suggestionsPromise={locationsPromise} />
         <DistanceSelect />
       </div>
 

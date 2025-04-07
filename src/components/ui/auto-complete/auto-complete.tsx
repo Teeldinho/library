@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, use } from "react";
+import { Suspense, use, useEffect } from "react";
 import { AutocompleteHeadless, AutocompleteSuggestion } from "./auto-complete-headless";
 import styles from "./auto-complete.module.css";
 import { useTranslations } from "next-intl";
@@ -9,6 +9,7 @@ import { hasMinChars } from "@/lib/validators";
 import { Label } from "@/components/ui/label/label";
 import { LoadingList } from "@/components/ui/loading-state/loading-state";
 import { EmptyList } from "@/components/ui/empty-state/empty-state";
+import { Input } from "@/components/ui/input/input";
 
 interface AutoCompleteProps<T extends AutocompleteSuggestion> {
   suggestions: T[] | Promise<FetchResult<T[]>>;
@@ -34,14 +35,15 @@ export function AutoComplete<T extends AutocompleteSuggestion>(props: AutoComple
       onInputChange={onInputChange}
       itemToString={itemToString}
     >
-      {({ inputProps, listProps, getItemProps, isOpen, highlightedIndex }) => (
+      {({ inputProps, listProps, getItemProps, isOpen, highlightedIndex, getHighlightedItem }) => (
         <div className={styles.autocomplete}>
           {label && (
             <Label htmlFor={inputProps.id} variant="default" weight="medium">
               {label}
             </Label>
           )}
-          <input {...inputProps} className={styles.input} placeholder={placeholder} aria-describedby={listProps.id} />
+
+          <Input {...inputProps} placeholder={placeholder} aria-describedby={listProps.id} />
 
           {isOpen && hasMinChars(inputValue) && (
             <div className={styles.suggestionsContainer}>
@@ -54,6 +56,8 @@ export function AutoComplete<T extends AutocompleteSuggestion>(props: AutoComple
                   listProps={listProps}
                   itemToString={itemToString}
                   renderItem={renderItem}
+                  onSelect={onSelect}
+                  getHighlightedItem={getHighlightedItem}
                 />
               </Suspense>
             </div>
@@ -72,6 +76,8 @@ function SuggestionsList<T extends AutocompleteSuggestion>({
   listProps,
   itemToString,
   renderItem,
+  onSelect,
+  getHighlightedItem,
 }: {
   suggestions: T[] | Promise<FetchResult<T[]>>;
   inputValue: string;
@@ -80,6 +86,8 @@ function SuggestionsList<T extends AutocompleteSuggestion>({
   listProps: React.HTMLAttributes<HTMLUListElement>;
   itemToString?: (item: T) => string;
   renderItem?: (props: { item: T; isHighlighted: boolean; isSelected: boolean }) => React.ReactNode;
+  onSelect?: (item: T) => void;
+  getHighlightedItem: (items: T[]) => T | undefined;
 }) {
   const t = useTranslations("HomePage");
 
@@ -96,6 +104,23 @@ function SuggestionsList<T extends AutocompleteSuggestion>({
     const str = itemToString ? itemToString(item) : item.label;
     return str.toLowerCase().includes(inputValue.toLowerCase());
   });
+
+  // Handle Enter key selection
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Enter" && highlightedIndex !== null) {
+        const highlightedItem = getHighlightedItem(filtered);
+        if (highlightedItem && onSelect) {
+          onSelect(highlightedItem);
+        }
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [filtered, highlightedIndex, onSelect, getHighlightedItem]);
 
   if (hasMinChars(inputValue) && filtered.length === 0) {
     return <EmptyList message={t("noSuggestions")} />;

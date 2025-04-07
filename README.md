@@ -115,17 +115,17 @@ The application implements specialized components for handling different UI stat
 // Loading state with customizable message and spinner
 <LoadingState
   message="Loading content..."
-  variant="default"
-  size="sm"
-  alignment="center"
+  variant="default" // optional, default is "default"
+  size="sm" // optional, default is "sm"
+  alignment="left" // optional, default is "center"
 />
 
 // Empty state with customizable message and icon
 <EmptyState
   message="No results found"
-  variant="default"
-  size="sm"
-  hideIcon={false}
+  variant="muted" // optional, default is "default"
+  size="md" // optional, default is "sm"
+  hideIcon={true} // optional, default is false
 />
 ```
 
@@ -162,7 +162,7 @@ export function mapLocationDtoToRto(dto: LocationApiDTO): LocationRTO {
   const primaryTerm = dto.terms[0]; // Extract primary term for value
   return {
     label: dto.label,
-    value: dto.terms[0], // Extract primary term for value
+    value: primaryTerm, // Extract primary term for value
   };
 }
 
@@ -208,16 +208,20 @@ The application combines URL-based state management with Next.js 15's hybrid ren
 ```typescript
 // URL state definition
 export const searchParamsObject = {
+  keywords: parseAsString.withDefault("").withOptions({
+    throttleMs: 300, // Debounce user input
+    shallow: true, // No request is made to the server when the URL changes
+  }),
   location: parseAsString.withDefault("").withOptions({
     throttleMs: 750, // Debounce user input
-    shallow: false, // Server participates when URL changes
+    shallow: false, // A request is made to the server when the URL changes
   }),
 };
 ```
 
 This approach creates several key advantages:
 
-1. **Stateful URLs** - When a user shares `http://library.teeldinho.co.za/en?location=Great`, the recipient receives a page with pre-populated state
+1. **Stateful URLs** - When a user shares `https://library.teeldinho.co.za/en?location=Great` (click this [link](https://library.teeldinho.co.za/en?location=Great) for demo), the recipient receives a page with pre-populated state
 2. **Hydration optimization** - Next.js recognizes URL parameters and can pre-fetch data server-side before sending HTML
 3. **Reduced loading states** - When navigating to a URL with parameters, loading states may be minimized or eliminated entirely as data is already available
 4. **Seamless transitions** - Server Components can prepare data based on URL parameters before client hydration
@@ -314,7 +318,8 @@ export function AutocompleteHeadless<T extends AutocompleteSuggestion>({
   {({ inputProps, listProps, getItemProps, isOpen, highlightedIndex }) => (
     <div className={styles.autocomplete}>
       {label && <Label htmlFor={inputProps.id}>{label}</Label>}
-      <input {...inputProps} className={styles.input} placeholder={placeholder} />
+
+      <Input {...inputProps} placeholder={placeholder} aria-describedby={listProps.id} />
 
       {isOpen && hasMinChars(inputValue) && (
         <div className={styles.suggestionsContainer}>
@@ -401,15 +406,7 @@ The i18n implementation provides:
 
 ## Getting Started
 
-First, run the development server:
-
-```bash
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-Alternatively, you can access the live application [here](https://library.teeldinho.co.za/).
+You can access the live application [here](https://library.teeldinho.co.za/).
 
 ## Screenshots
 
@@ -417,6 +414,8 @@ Alternatively, you can access the live application [here](https://library.teeldi
 ![Job Search - English](public/desktop-english.png)
 ![Job Search - Spanish](public/desktop-spanish.png)
 ![Job Search - French](public/desktop-french.png)
+![Job Search - Loading State](public/loading-state.png)
+![Job Search - Empty State](public/empty-state.png)
 ![Job Search - English](public/mobile-english.png)
 ![Job Search - French](public/mobile-french.png)
 

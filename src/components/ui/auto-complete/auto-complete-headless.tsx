@@ -20,6 +20,7 @@ interface AutocompleteHeadlessProps<T extends AutocompleteSuggestion> {
     getItemProps: (index: number, item: T) => React.HTMLAttributes<HTMLLIElement>;
     isOpen: boolean;
     highlightedIndex: number | null;
+    getHighlightedItem: (items: T[]) => T | undefined;
   }) => React.ReactNode;
 }
 
@@ -46,25 +47,42 @@ export function AutocompleteHeadless<T extends AutocompleteSuggestion>({
     [onInputChange]
   );
 
-  const handleKeyDown = useCallback((event: KeyboardEvent<HTMLInputElement>) => {
-    switch (event.key) {
-      case "ArrowDown":
-        event.preventDefault();
-        setHighlightedIndex((prev) => (prev === null ? 0 : prev + 1));
-        break;
-      case "ArrowUp":
-        event.preventDefault();
-        setHighlightedIndex((prev) => (prev === null ? 0 : prev - 1));
-        break;
-      case "Escape":
-        setIsOpen(false);
-        setHighlightedIndex(null);
-        break;
-      case "Enter":
-        // Handle in the SuggestionsList component
-        break;
-    }
-  }, []);
+  const getHighlightedItem = useCallback(
+    (items: T[]) => {
+      if (highlightedIndex === null || highlightedIndex < 0 || highlightedIndex >= items.length) {
+        return undefined;
+      }
+      return items[highlightedIndex];
+    },
+    [highlightedIndex]
+  );
+
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent<HTMLInputElement>) => {
+      switch (event.key) {
+        case "ArrowDown":
+          event.preventDefault();
+          setHighlightedIndex((prev) => (prev === null ? 0 : prev + 1));
+          break;
+        case "ArrowUp":
+          event.preventDefault();
+          setHighlightedIndex((prev) => (prev === null ? 0 : Math.max(0, prev - 1)));
+          break;
+        case "Escape":
+          setIsOpen(false);
+          setHighlightedIndex(null);
+          break;
+        case "Enter":
+          if (isOpen && highlightedIndex !== null) {
+            event.preventDefault();
+            // The actual selection happens in the SuggestionsList component
+            // since it has access to the filtered items
+          }
+          break;
+      }
+    },
+    [highlightedIndex, isOpen]
+  );
 
   const getItemProps = useCallback(
     (index: number, item: T) => ({
@@ -104,5 +122,6 @@ export function AutocompleteHeadless<T extends AutocompleteSuggestion>({
     getItemProps,
     isOpen,
     highlightedIndex,
+    getHighlightedItem,
   });
 }

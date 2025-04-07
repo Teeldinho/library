@@ -24,21 +24,27 @@
   font-size: var(--text-sm);
 }
 
+.size-md {
+  min-height: var(--form-element-height);
+  padding: var(--form-padding-y) var(--form-padding-x);
+  font-size: var(--text-md);
+}
+
 .size-lg {
   min-height: var(--size-lg);
   padding: calc(var(--form-padding-y) * 1.15) var(--form-padding-x);
   font-size: var(--text-lg);
 }
 
-.variantDefault {
+.variant-default {
   border-color: var(--border-color);
 }
 
-.variantPrimary {
+.variant-primary {
   border-color: var(--primary-500);
 }
 
-.variantSubtle {
+.variant-subtle {
   background: var(--bg-muted);
   border-color: transparent;
 }

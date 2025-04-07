@@ -5,7 +5,7 @@ import styles from "./input.module.css";
 
 const inputVariants = cva(styles.base, {
   variants: {
-    size: {
+    inputSize: {
       sm: styles["size-sm"],
       md: styles["size-md"],
       lg: styles["size-lg"],
@@ -17,7 +17,7 @@ const inputVariants = cva(styles.base, {
     },
   },
   defaultVariants: {
-    size: "md",
+    inputSize: "md",
     variant: "default",
   },
 });
@@ -28,5 +28,5 @@ type InputProps = ComponentProps<"input"> &
   };
 
 export const Input = ({ className, inputSize, variant, ...props }: InputProps) => (
-  <input className={cn(inputVariants({ size: inputSize, variant, className }))} {...props} />
+  <input className={cn(inputVariants({ inputSize, variant, className }))} {...props} />
 );
