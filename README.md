@@ -418,6 +418,10 @@ You can access the live application [here](https://library.teeldinho.co.za/).
 ![Job Search - Empty State](public/empty-state.png)
 ![Job Search - English](public/mobile-english.png)
 ![Job Search - French](public/mobile-french.png)
+![Job Search - Lighthouse Desktop](public/performance-lighthouse-desktop.png)
+![Job Search - Lighthouse Desktop - Metrics](public/performance-lighthouse-metrics-desktop.png)
+![Job Search - Lighthouse Mobile](public/performance-lighthouse-mobile.png)
+![Job Search - Lighthouse Mobile - Metrics](public/performance-lighthouse-metrics-mobile.png)
 
 ## Conclusion
 
