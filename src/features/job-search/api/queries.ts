@@ -1,3 +1,6 @@
+"use server";
+import "server-only";
+
 import { LocationsApiResponseSchema } from "@/features/job-search/models/schemas";
 import { jobSearchEndpoints } from "@/features/job-search/api/endpoints";
 import { jobSearchKeys } from "@/features/job-search/api/keys";
