@@ -71,9 +71,10 @@ The project adopts a simplified version of Feature-Sliced Design (FSD) for code 
 src/
 ├── features/          # Business domains
 │   └── job-search/    # Domain-specific feature
-│       ├── ui/        # Presentational components
 │       ├── api/       # API clients & queries
-│       └── models/    # Type definitions & schemas
+│       ├── helpers/   # Helper functions, utilities (and dummy data) that maintain at least one level of abstraction -- keeping our components clean
+│       ├── models/    # Type definitions & schemas
+│       └── ui/        # Presentational components
 ├── components/        # Shared UI primitives
 ├── styles/            # Global styles & design system
 └── lib/               # Generic utilities
@@ -85,6 +86,45 @@ This structure provides clear boundaries between different concerns, enabling:
 2. **Improved maintainability** through isolation of feature modules
 3. **Easier onboarding** for new developers through consistent patterns
 4. **Scalability** as new features can be added without affecting existing ones
+
+### UI State Components
+
+The application implements specialized components for handling different UI states:
+
+```typescript
+// Loading state with customizable message and spinner
+<LoadingState
+  message="Loading content..."
+  variant="default" // optional, default is "default"
+  size="sm" // optional, default is "sm"
+  alignment="left" // optional, default is "center"
+/>
+
+// Loading list with customizable message and spinner
+<LoadingList
+  message="Loading content..."
+/>
+
+// Empty state with customizable message and icon
+<EmptyState
+  message="No results found"
+  variant="muted" // optional, default is "default"
+  size="md" // optional, default is "sm"
+  hideIcon={true} // optional, default is false
+/>
+
+// Empty list with customizable message
+ <EmptyList message={t("noSuggestions")} />; // this uses the t function from next-intl to get the message from the translations
+```
+
+These components provide:
+
+1. **Consistent user feedback** - Standardized appearance for loading and empty states
+2. **Flexible presentation** - Customizable sizing, alignment, and styling
+3. **Accessibility** - Proper ARIA attributes and semantic structure
+4. **List variants** - Specialized `LoadingList` and `EmptyList` for dropdown contexts
+
+Together with Suspense boundaries, these components create a cohesive approach to handling asynchronous operations and empty datasets throughout the application.
 
 ### Promise Handling with Suspense
 
@@ -102,41 +142,68 @@ This pattern allows for:
 1. **Progressive rendering** - The UI is streamed from server to client, allowing users to see and interact with parts of the page while other components are still loading
 2. **Decoupled data fetching** - Suspense boundaries isolate loading states to specific components rather than entire pages
 3. **Sequential user flows** - Loading states are shown before no-results states, creating a logical progression for users
-4. **Use hook integration** - React 19's `use` hook unwraps promises safely within Suspense boundaries
+4. **`Use` hook integration** - React 19's `use` hook unwraps promises safely within Suspense boundaries
 5. **Fallback resiliency** - API failures trigger fallbacks to mock data after simulated delays
 
 The component gracefully handles both static data arrays and promises that resolve to data, providing flexibility in data sourcing while maintaining consistent UI patterns.
 
-### UI State Components
+### URL-Driven State with NUQS and Hybrid Rendering
 
-The application implements specialized components for handling different UI states:
+The application combines URL-based state management with Next.js 15's hybrid rendering for a powerful developer and user experience:
 
 ```typescript
-// Loading state with customizable message and spinner
-<LoadingState
-  message="Loading content..."
-  variant="default" // optional, default is "default"
-  size="sm" // optional, default is "sm"
-  alignment="left" // optional, default is "center"
-/>
-
-// Empty state with customizable message and icon
-<EmptyState
-  message="No results found"
-  variant="muted" // optional, default is "default"
-  size="md" // optional, default is "sm"
-  hideIcon={true} // optional, default is false
-/>
+// URL state definition
+export const searchParamsObject = {
+  keywords: parseAsString.withDefault("").withOptions({
+    throttleMs: 300, // Debounce user input
+    shallow: true, // No request is made to the server when the URL changes
+  }),
+  location: parseAsString.withDefault("").withOptions({
+    throttleMs: 750, // Debounce user input
+    shallow: false, // A request is made to the server when the URL changes
+  }),
+};
 ```
 
-These components provide:
+This approach creates several key advantages:
 
-1. **Consistent user feedback** - Standardized appearance for loading and empty states
-2. **Flexible presentation** - Customizable sizing, alignment, and styling
-3. **Accessibility** - Proper ARIA attributes and semantic structure
-4. **List variants** - Specialized `LoadingList` and `EmptyList` for dropdown contexts
+1. **Stateful URLs** - When a user shares `https://library.teeldinho.co.za/en?location=Great` (click this [link](https://library.teeldinho.co.za/en?location=Great) for demo), the recipient receives a page with pre-populated state
+2. **Hydration optimization** - Next.js recognizes URL parameters and can pre-fetch data server-side before sending HTML
+3. **Reduced loading states** - When navigating to a URL with parameters, loading states may be minimized or eliminated entirely as data is already available
+4. **Seamless transitions** - Server Components can prepare data based on URL parameters before client hydration
+5. **State persistence** - Browser history navigation preserves application state without additional client-side code
 
-Together with Suspense boundaries, these components create a cohesive approach to handling asynchronous operations and empty datasets throughout the application.
+For example, when a user selects "Manchester" from the location dropdown, `setLocation("Manchester")` updates the URL to `?location=Manchester`. If this URL is shared, Next.js can use this parameter to fetch location data server-side, potentially eliminating loading indicators entirely for the recipient.
+
+This pattern exemplifies Next.js 15's "full-stack to the frontend" approach, where server and client collaborate to optimize both initial and subsequent page loads.
+
+### Type-Safe API Layer
+
+The application implements a robust pattern for API interactions:
+
+```typescript
+// Discriminated union type for success/error states
+export type FetchResult<T> = { status: "success"; data: T } | { status: "error"; message: string };
+
+// Helper functions enforce the correct Success shape
+export const handleSuccess = <T>(data: T): FetchResult<T> => ({
+  status: "success",
+  data,
+});
+
+// Helper functions enforce the correct Error shape
+export const handleError = (message: string): FetchResult<never> => ({
+  status: "error",
+  message,
+});
+```
+
+This pattern provides several benefits:
+
+1. **Compile-time error checking** prevents invalid state combinations
+2. **Exhaustive pattern matching** with TypeScript ensures all cases are handled
+3. **Consistent error handling** across the application
+4. **Self-documenting code** clearly shows possible outcomes
 
 ### Data Transformation Pipeline
 
@@ -204,60 +271,6 @@ This pattern creates a robust frontend architecture:
 3. **Frontend optimization** - RTOs contain only data needed by UI components
 4. **Graceful degradation** - Error handling with mock data fallbacks
 5. **Type safety** - TypeScript ensures correct data usage throughout the application
-
-### URL-Driven State with NUQS and Hybrid Rendering
-
-The application combines URL-based state management with Next.js 15's hybrid rendering for a powerful developer and user experience:
-
-```typescript
-// URL state definition
-export const searchParamsObject = {
-  keywords: parseAsString.withDefault("").withOptions({
-    throttleMs: 300, // Debounce user input
-    shallow: true, // No request is made to the server when the URL changes
-  }),
-  location: parseAsString.withDefault("").withOptions({
-    throttleMs: 750, // Debounce user input
-    shallow: false, // A request is made to the server when the URL changes
-  }),
-};
-```
-
-This approach creates several key advantages:
-
-1. **Stateful URLs** - When a user shares `https://library.teeldinho.co.za/en?location=Great` (click this [link](https://library.teeldinho.co.za/en?location=Great) for demo), the recipient receives a page with pre-populated state
-2. **Hydration optimization** - Next.js recognizes URL parameters and can pre-fetch data server-side before sending HTML
-3. **Reduced loading states** - When navigating to a URL with parameters, loading states may be minimized or eliminated entirely as data is already available
-4. **Seamless transitions** - Server Components can prepare data based on URL parameters before client hydration
-5. **State persistence** - Browser history navigation preserves application state without additional client-side code
-
-For example, when a user selects "Great Yarmouth" from the location dropdown, `setLocation("Great Yarmouth")` updates the URL to `?location=Great%20Yarmouth`. If this URL is shared, Next.js can use this parameter to fetch location data server-side, potentially eliminating loading indicators entirely for the recipient.
-
-This pattern exemplifies Next.js 15's "full-stack to the frontend" approach, where server and client collaborate to optimize both initial and subsequent page loads.
-
-### Git Workflow Strategy
-
-The project employs GitHub Flow, a simplified Git branching strategy that's ideal for smaller teams or solo developers:
-
-```
-main         ○─────○─────○─────○─────○
-              \     \     \     /     /
-feature-1      ○─────○─────○───○
-                      \         /
-feature-2               ○───○──○
-                               \
-hotfix-1                        ○───○
-```
-
-Key aspects of this approach:
-
-1. **Single production branch** (`main`) - Always deployable and protected
-2. **Feature branches** - Created for new features, merged via pull requests
-3. **Hotfix branches** - Created for urgent production fixes
-4. **No develop branch** - Simplifies the workflow for smaller teams
-5. **Pull request reviews** - Code quality gate before merging to main
-
-This simplified workflow provides adequate structure while eliminating the overhead of more complex strategies like GitFlow, which is more suitable for larger teams with coordinated release cycles.
 
 ### Design System with CSS Variables
 
@@ -351,34 +364,6 @@ This pattern offers several key advantages:
 
 The headless pattern creates a robust foundation that can be styled differently across the application while maintaining consistent behavior and accessibility.
 
-### Type-Safe API Layer
-
-The application implements a robust pattern for API interactions:
-
-```typescript
-// Discriminated union type for success/error states
-export type FetchResult<T> = { status: "success"; data: T } | { status: "error"; message: string };
-
-// Helper functions enforce the correct Success shape
-export const handleSuccess = <T>(data: T): FetchResult<T> => ({
-  status: "success",
-  data,
-});
-
-// Helper functions enforce the correct Error shape
-export const handleError = (message: string): FetchResult<never> => ({
-  status: "error",
-  message,
-});
-```
-
-This pattern provides several benefits:
-
-1. **Compile-time error checking** prevents invalid state combinations
-2. **Exhaustive pattern matching** with TypeScript ensures all cases are handled
-3. **Consistent error handling** across the application
-4. **Self-documenting code** clearly shows possible outcomes
-
 ### Internationalization Strategy
 
 The application uses next-intl for localization:
@@ -401,6 +386,30 @@ The i18n implementation provides:
 2. **Locale-specific URLs** for better user experience
 3. **Message separation** for easier translation management
 4. **Dynamic loading** of translation files only when needed
+
+### Git Workflow Strategy
+
+The project employs GitHub Flow, a simplified Git branching strategy that's ideal for smaller teams or solo developers:
+
+```
+main         ○─────○─────○─────○─────○
+              \     \     \     /     /
+feature-1      ○─────○─────○───○
+                      \         /
+feature-2               ○───○──○
+                               \
+hotfix-1                        ○───○
+```
+
+Key aspects of this approach:
+
+1. **Single production branch** (`main`) - Always deployable and protected
+2. **Feature branches** - Created for new features, merged via pull requests
+3. **Hotfix branches** - Created for urgent production fixes
+4. **No develop branch** - Simplifies the workflow for smaller teams
+5. **Pull request reviews** - Code quality gate before merging to main
+
+This simplified workflow provides adequate structure while eliminating the overhead of more complex strategies like GitFlow, which is more suitable for larger teams with coordinated release cycles.
 
 ## Areas for Improvement
 
